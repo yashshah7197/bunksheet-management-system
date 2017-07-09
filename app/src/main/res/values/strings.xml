@@ -1,6 +1,8 @@
 <resources>
+    <!-- App Name -->
     <string name="app_name">Bunksheet Management System</string>
 
+    <!-- LoginActivity -->
     <string name="login">Login</string>
     <string name="log_in_facebook">Login with Facebook</string>
     <string name="sign_in_google">Sign in with Google</string>
@@ -8,4 +10,14 @@
     <string name="password">Password</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="sign_up">Don\'t have an account? Sign up</string>
+
+    <!-- MainActivity Navigation Drawer -->
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
+    <string name="bunksheets">Bunksheets</string>
+    <string name="approve_bunksheets">Approve Bunksheets</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="feedback">Feedback</string>
+
 </resources>
