@@ -20,4 +20,10 @@
     <string name="logout">Logout</string>
     <string name="feedback">Feedback</string>
 
+    <!-- RegisterActivity -->
+    <string name="register">Register</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="confirm_password">Confirm Password</string>
+
 </resources>
