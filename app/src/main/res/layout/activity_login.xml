@@ -35,7 +35,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp">
 
-            <ImageButton
+            <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/imageButton_fb_login"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -66,13 +66,13 @@
             android:layout_marginRight="12dp"
             android:layout_marginStart="12dp">
 
-            <ImageButton
+            <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/imageButton_google_login"
+                backgroundTint="#FFFFFF"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:elevation="1dp"
                 android:scaleType="fitStart"
-                app:backgroundTint="#FFFFFF"
                 app:srcCompat="@drawable/google_logo_1024"/>
 
             <TextView
