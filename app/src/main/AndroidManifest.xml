@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/register">
+            android:label="@string/register"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 
