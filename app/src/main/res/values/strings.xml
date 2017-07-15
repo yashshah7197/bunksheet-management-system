@@ -49,4 +49,10 @@
     <string name="unknown_error">An unknown error has occurred. Please contact the developer for
         support!</string>
 
+    <string name="logging_in_title">Logging In</string>
+    <string name="logging_in_message">Please wait while we log you in…</string>
+    <string name="login_failed_title">Login Failed</string>
+    <string name="login_failed_message">There was a problem logging you in. Please check your
+        username and password and try again!</string>
+
 </resources>
