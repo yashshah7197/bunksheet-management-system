@@ -24,8 +24,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -49,7 +52,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
+    private DatabaseReference mUsersDatabaseReference;
+    private ValueEventListener mValueEventListener;
+    private FirebaseUser mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +96,11 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mProgressDialog.show();
-                if (!userDetailsValid()) {
-                    showValidationErrorDialog();
-                } else {
+                if (userDetailsValid()) {
                     registerUser();
+                } else {
+                    mProgressDialog.dismiss();
+                    showValidationErrorDialog();
                 }
             }
         });
@@ -110,10 +116,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence sequence, int start, int before, int count) {
-                if (!isValidFirstName(sequence)) {
-                    mFirstNameInputLayout.setError(getString(R.string.invalid_first_name));
-                } else {
+                if (isValidFirstName(sequence)) {
                     mFirstNameInputLayout.setErrorEnabled(false);
+                } else {
+                    mFirstNameInputLayout.setError(getString(R.string.invalid_first_name));
                 }
             }
 
@@ -132,10 +138,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence sequence, int start, int before, int count) {
-                if (!isValidLastName(sequence)) {
-                    mLastNameInputLayout.setError(getString(R.string.invalid_last_name));
-                } else {
+                if (isValidLastName(sequence)) {
                     mLastNameInputLayout.setErrorEnabled(false);
+                } else {
+                    mLastNameInputLayout.setError(getString(R.string.invalid_last_name));
                 }
             }
 
@@ -153,10 +159,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence sequence, int start, int before, int count) {
-                if (!isValidEmail(sequence.toString().trim())) {
-                    mEmailInputLayout.setError(getString(R.string.invalid_email));
-                } else {
+                if (isValidEmail(sequence.toString().trim())) {
                     mEmailInputLayout.setErrorEnabled(false);
+                } else {
+                    mEmailInputLayout.setError(getString(R.string.invalid_email));
                 }
             }
 
@@ -173,10 +179,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence sequence, int start, int before, int count) {
-                if (!isValidPassword(sequence.toString())) {
-                    mPasswordInputLayout.setError(getString(R.string.invalid_password));
-                } else {
+                if (isValidPassword(sequence.toString())) {
                     mPasswordInputLayout.setErrorEnabled(false);
+                } else {
+                    mPasswordInputLayout.setError(getString(R.string.invalid_password));
                 }
             }
 
@@ -193,11 +199,11 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence sequence, int start, int before, int count) {
-                if (!passwordsMatch(passwordEditText.getText(), sequence)) {
+                if (passwordsMatch(passwordEditText.getText(), sequence)) {
+                    mConfirmPasswordInputLayout.setErrorEnabled(false);
+                } else {
                     mConfirmPasswordInputLayout
                             .setError(getString(R.string.passwords_not_matching));
-                } else {
-                    mConfirmPasswordInputLayout.setErrorEnabled(false);
                 }
             }
 
@@ -210,7 +216,50 @@ public class RegisterActivity extends AppCompatActivity {
     private void setupFirebase() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference();
+        mUsersDatabaseReference = mFirebaseDatabase.getReference().child("Users");
+        mValueEventListener = null;
+        mCurrentUser = null;
+    }
+
+    private void attachValueEventListener() {
+        if (mValueEventListener == null) {
+            mValueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.hasChild(mCurrentUser.getUid())) {
+                        HashMap<String, String> hashMap = new HashMap<>();
+                        hashMap.put("name", mCurrentUser.getDisplayName());
+                        hashMap.put("year", "");
+                        hashMap.put("division", "");
+                        hashMap.put("roll_no", "");
+                        hashMap.put("teacher_guardian", "");
+                        hashMap.put("class_teacher", "");
+                        hashMap.put("bunksheets_requested", "");
+
+                        mUsersDatabaseReference.child(mCurrentUser.getUid()).setValue(hashMap)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        sendVerificationEmail();
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            mUsersDatabaseReference.addListenerForSingleValueEvent(mValueEventListener);
+        }
+    }
+
+    private void detachValueEventListener() {
+        if (mValueEventListener != null) {
+            mUsersDatabaseReference.removeEventListener(mValueEventListener);
+            mValueEventListener = null;
+        }
     }
 
     private boolean isValidFirstName(CharSequence firstName) {
@@ -288,44 +337,35 @@ public class RegisterActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void updateUserDetails(final FirebaseUser firebaseUser) {
+    private void updateUserDetails() {
         UserProfileChangeRequest changeRequest = new UserProfileChangeRequest.Builder()
                 .setDisplayName(mFirstName + " " + mLastName)
                 .build();
 
-        firebaseUser.updateProfile(changeRequest)
+        mCurrentUser.updateProfile(changeRequest)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (!task.isSuccessful()) {
+                        if (task.isSuccessful()) {
+                            attachValueEventListener();
+                        } else {
                             Toast.makeText(RegisterActivity.this, getString(R.string.unknown_error),
                                     Toast.LENGTH_SHORT)
                                     .show();
-                        } else {
-                            mDatabaseReference = mFirebaseDatabase.getReference().child("Users");
-
-                            HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put("name", firebaseUser.getDisplayName());
-                            hashMap.put("year", "");
-                            hashMap.put("division", "");
-                            hashMap.put("roll_no", "");
-                            hashMap.put("teacher_guardian", "");
-                            hashMap.put("class_teacher", "");
-                            hashMap.put("bunksheets_requested", "");
-
-                            mDatabaseReference.push().setValue(hashMap);
                         }
                     }
                 });
     }
 
-    private void sendVerificationEmail(FirebaseUser firebaseUser) {
-        firebaseUser.sendEmailVerification()
+    private void sendVerificationEmail() {
+        mCurrentUser.sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        mProgressDialog.dismiss();
-                        showRegistrationSuccessfulDialog();
+                        if (task.isSuccessful()) {
+                            mProgressDialog.dismiss();
+                            showRegistrationSuccessfulDialog();
+                        }
                     }
                 });
     }
@@ -343,13 +383,20 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
                             if (currentUser != null) {
-                                updateUserDetails(currentUser);
-                                sendVerificationEmail(currentUser);
+                                mCurrentUser = currentUser;
+                                updateUserDetails();
                             }
                         } else {
+                            mProgressDialog.dismiss();
                             showRegistrationFailedDialog();
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        detachValueEventListener();
     }
 }
