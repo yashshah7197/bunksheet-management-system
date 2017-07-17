@@ -55,4 +55,7 @@
     <string name="login_failed_message">There was a problem logging you in. Please check your
         username and password and try again!</string>
 
+    <string name="play_services_error">There was an error with Google Play Services! Please
+        try again!</string>
+
 </resources>
