@@ -47,7 +47,7 @@
                 android:paddingTop="12dp"
                 android:scaleType="fitStart"
                 app:backgroundTint="#3C5A96"
-                app:srcCompat="@drawable/fb_logo_white_1024"/>
+                app:srcCompat="@drawable/fb_logo_white"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
                 android:elevation="1dp"
                 android:scaleType="fitStart"
                 app:backgroundTint="#FFFFFF"
-                app:srcCompat="@drawable/google_logo_1024"/>
+                app:srcCompat="@drawable/google_logo"/>
 
             <TextView
                 android:layout_width="wrap_content"
