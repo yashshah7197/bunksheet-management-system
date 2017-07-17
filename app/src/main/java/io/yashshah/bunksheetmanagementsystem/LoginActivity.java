@@ -35,8 +35,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -129,59 +127,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mCurrentUser = null;
     }
 
-    private void attachValueEventListener() {
-        if (mValueEventListener == null) {
-            mValueEventListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (!dataSnapshot.hasChild(mCurrentUser.getUid())) {
-                        HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("name", mCurrentUser.getDisplayName());
-                        hashMap.put("year", "");
-                        hashMap.put("division", "");
-                        hashMap.put("roll_no", "");
-                        hashMap.put("teacher_guardian", "");
-                        hashMap.put("class_teacher", "");
-                        hashMap.put("bunksheets_requested", "");
-
-                        mUsersDatabaseReference.child(mCurrentUser.getUid()).setValue(hashMap)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            mProgressDialog.dismiss();
-                                            startActivity(afterLoginIntent);
-                                        } else {
-                                            mProgressDialog.dismiss();
-                                            Toast.makeText(LoginActivity.this,
-                                                    getString(R.string.unknown_error),
-                                                    Toast.LENGTH_LONG).show();
-                                            startActivity(afterLoginIntent);
-                                        }
-                                    }
-                                });
-                    } else {
-                        mProgressDialog.dismiss();
-                        startActivity(afterLoginIntent);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            };
-            mUsersDatabaseReference.addListenerForSingleValueEvent(mValueEventListener);
-        }
-    }
-
-    private void detachValueEventListener() {
-        if (mValueEventListener != null) {
-            mUsersDatabaseReference.removeEventListener(mValueEventListener);
-            mValueEventListener = null;
-        }
-    }
-
     private void setupGoogleSignIn() {
         GoogleSignInOptions signInOptions
                 = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -194,11 +139,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                 .build();
 
-    }
-
-    private void signInWithGoogle() {
-        Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(intent, RC_SIGN_IN);
     }
 
     private void registerFacebookCallbackManager() {
@@ -232,22 +172,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void signInWithGoogle() {
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(intent, RC_SIGN_IN);
+    }
+
     private void loginWithFacebook() {
         LoginManager.getInstance()
                 .logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
-    }
-
-    private void showSignInFailedAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.login_failed_title));
-        builder.setMessage(getString(R.string.login_failed_message));
-        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.setCancelable(false);
-        builder.show();
     }
 
     private void signInWithEmailPassword() {
@@ -280,6 +212,119 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 });
     }
 
+    private void authenticateFirebaseWithFacebook(AccessToken accessToken) {
+        AuthCredential authCredential =
+                FacebookAuthProvider.getCredential(accessToken.getToken());
+
+        mFirebaseAuth.signInWithCredential(authCredential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+                            if (currentUser != null) {
+                                mCurrentUser = currentUser;
+                                attachValueEventListener();
+                            } else {
+                                mProgressDialog.dismiss();
+                                showSignInFailedAlertDialog();
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void authenticateFirebaseWithGoogle(final GoogleSignInAccount googleSignInAccount) {
+        AuthCredential authCredential
+                = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
+
+        mFirebaseAuth.signInWithCredential(authCredential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+                            if (currentUser != null) {
+                                mCurrentUser = currentUser;
+                                attachValueEventListener();
+                            }
+                        } else {
+                            mProgressDialog.dismiss();
+                            showSignInFailedAlertDialog();
+                        }
+                    }
+                });
+    }
+
+    private void attachValueEventListener() {
+        if (mValueEventListener == null) {
+            mValueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.hasChild(mCurrentUser.getUid())) {
+                        createUserInDatabase();
+                    } else {
+                        mProgressDialog.dismiss();
+                        startActivity(afterLoginIntent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            mUsersDatabaseReference.addListenerForSingleValueEvent(mValueEventListener);
+        }
+    }
+
+    private void detachValueEventListener() {
+        if (mValueEventListener != null) {
+            mUsersDatabaseReference.removeEventListener(mValueEventListener);
+            mValueEventListener = null;
+        }
+    }
+
+    private void createUserInDatabase() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("name", mCurrentUser.getDisplayName());
+        hashMap.put("year", "");
+        hashMap.put("division", "");
+        hashMap.put("roll_no", "");
+        hashMap.put("teacher_guardian", "");
+        hashMap.put("class_teacher", "");
+        hashMap.put("bunksheets_requested", "");
+
+        mUsersDatabaseReference.child(mCurrentUser.getUid()).setValue(hashMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            mProgressDialog.dismiss();
+                            startActivity(afterLoginIntent);
+                        } else {
+                            mProgressDialog.dismiss();
+                            Toast.makeText(LoginActivity.this, getString(R.string.unknown_error),
+                                    Toast.LENGTH_LONG).show();
+                            startActivity(afterLoginIntent);
+                        }
+                    }
+                });
+    }
+
+    private void showSignInFailedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.login_failed_title));
+        builder.setMessage(getString(R.string.login_failed_message));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, getString(R.string.play_services_error), Toast.LENGTH_LONG).show();
@@ -304,75 +349,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void authenticateFirebaseWithFacebook(AccessToken accessToken) {
-        AuthCredential authCredential =
-                FacebookAuthProvider.getCredential(accessToken.getToken());
-
-        mFirebaseAuth.signInWithCredential(authCredential)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-                            if (currentUser != null) {
-                                mCurrentUser = currentUser;
-                                updateUserDetails(getDisplayNameFromProvider());
-                            } else {
-                                mProgressDialog.dismiss();
-                                showSignInFailedAlertDialog();
-                            }
-                        }
-                    }
-                });
-    }
-
-    private String getDisplayNameFromProvider() {
-        UserInfo userInfo = mCurrentUser.getProviderData().get(0);
-        return userInfo.getDisplayName();
-    }
-
-    private void authenticateFirebaseWithGoogle(final GoogleSignInAccount googleSignInAccount) {
-        AuthCredential authCredential
-                = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
-
-        mFirebaseAuth.signInWithCredential(authCredential)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-                            if (currentUser != null) {
-                                mCurrentUser = currentUser;
-                                updateUserDetails(googleSignInAccount.getDisplayName());
-                            }
-                        } else {
-                            mProgressDialog.dismiss();
-                            showSignInFailedAlertDialog();
-                        }
-                    }
-                });
-    }
-
-    private void updateUserDetails(String displayName) {
-        UserProfileChangeRequest changeRequest = new UserProfileChangeRequest.Builder()
-                .setDisplayName(displayName)
-                .build();
-
-        mCurrentUser.updateProfile(changeRequest)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            attachValueEventListener();
-                        } else {
-                            Toast.makeText(LoginActivity.this, getString(R.string.unknown_error),
-                                    Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    }
-                });
-    }
-
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_log_in) {
@@ -385,12 +361,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        detachValueEventListener();
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         registerFacebookCallbackManager();
@@ -400,6 +370,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         unregisterFaceBookCallbackManager();
+        detachValueEventListener();
     }
 }
 
