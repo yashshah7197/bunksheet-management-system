@@ -357,6 +357,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             signInWithGoogle();
         } else if (view.getId() == R.id.imageButton_fb_login) {
             loginWithFacebook();
+        } else if (view.getId() == R.id.textView_forgot_password) {
+            startActivity(new Intent(this, ForgotPasswordActivity.class));
+        } else if (view.getId() == R.id.textView_sign_up) {
+            startActivity(new Intent(this, RegisterActivity.class));
         }
     }
 
