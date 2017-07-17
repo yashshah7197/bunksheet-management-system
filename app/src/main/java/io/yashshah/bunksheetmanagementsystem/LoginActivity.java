@@ -15,6 +15,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -25,9 +31,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
@@ -66,6 +75,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private GoogleApiClient mGoogleApiClient;
 
+    private CallbackManager mCallbackManager;
+
     private Intent afterLoginIntent;
 
     @Override
@@ -76,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setupViews();
         setupFirebase();
         setupGoogleSignIn();
+        registerFacebookCallbackManager();
 
         afterLoginIntent = new Intent(LoginActivity.this, MainActivity.class);
         afterLoginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -189,6 +201,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivityForResult(intent, RC_SIGN_IN);
     }
 
+    private void registerFacebookCallbackManager() {
+        if (mCallbackManager == null) {
+            mCallbackManager = CallbackManager.Factory.create();
+
+            LoginManager.getInstance()
+                    .registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            authenticateFirebaseWithFacebook(loginResult.getAccessToken());
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+
+                        @Override
+                        public void onError(FacebookException error) {
+
+                        }
+                    });
+        }
+    }
+
+    private void unregisterFaceBookCallbackManager() {
+        if (mCallbackManager != null) {
+            LoginManager.getInstance().unregisterCallback(mCallbackManager);
+            mCallbackManager = null;
+        }
+    }
+
+    private void loginWithFacebook() {
+        LoginManager.getInstance()
+                .logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+    }
+
     private void showSignInFailedAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.login_failed_title));
@@ -251,7 +299,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mProgressDialog.dismiss();
                 showSignInFailedAlertDialog();
             }
+        } else {
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void authenticateFirebaseWithFacebook(AccessToken accessToken) {
+        AuthCredential authCredential =
+                FacebookAuthProvider.getCredential(accessToken.getToken());
+
+        mFirebaseAuth.signInWithCredential(authCredential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+                            if (currentUser != null) {
+                                mCurrentUser = currentUser;
+                                updateUserDetails(getDisplayNameFromProvider());
+                            } else {
+                                mProgressDialog.dismiss();
+                                showSignInFailedAlertDialog();
+                            }
+                        }
+                    }
+                });
+    }
+
+    private String getDisplayNameFromProvider() {
+        UserInfo userInfo = mCurrentUser.getProviderData().get(0);
+        return userInfo.getDisplayName();
     }
 
     private void authenticateFirebaseWithGoogle(final GoogleSignInAccount googleSignInAccount) {
@@ -302,6 +379,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             signInWithEmailPassword();
         } else if (view.getId() == R.id.imageButton_google_login) {
             signInWithGoogle();
+        } else if (view.getId() == R.id.imageButton_fb_login) {
+            loginWithFacebook();
         }
     }
 
@@ -309,6 +388,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onPause() {
         super.onPause();
         detachValueEventListener();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerFacebookCallbackManager();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterFaceBookCallbackManager();
     }
 }
 

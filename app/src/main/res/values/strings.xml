@@ -58,4 +58,8 @@
     <string name="play_services_error">There was an error with Google Play Services! Please
         try again!</string>
 
+    <string name="facebook_app_id">121412008477508</string>
+    <string name="fb_login_protocol_scheme">fb121412008477508</string>
+
+
 </resources>
