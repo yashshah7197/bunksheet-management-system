@@ -61,5 +61,16 @@
     <string name="facebook_app_id">121412008477508</string>
     <string name="fb_login_protocol_scheme">fb121412008477508</string>
 
+    <string name="send_reset_link">Send Reset Link</string>
+    <string name="forgot_password_enter_email">Please enter the Email ID associated with your
+        account below</string>
+
+    <string name="reset_password_progress_message">Please wait while we send you an email with the
+        password reset link…</string>
+    <string name="reset_password_title">Reset Password</string>
+    <string name="reset_password_message">The password reset link has been sent successfully!
+        Please check your email for further instructions!</string>
+    <string name="reset_password_error">There was an error sending the password reset email. Please
+        try again!</string>
 
 </resources>
