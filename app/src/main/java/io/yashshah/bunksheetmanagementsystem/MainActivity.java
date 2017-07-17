@@ -1,5 +1,6 @@
 package io.yashshah.bunksheetmanagementsystem;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,11 +25,26 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
 
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    private FirebaseUser mCurrentUser;
+
+    private Intent mLoginIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupViews();
+        setupFirebase();
+
+        mLoginIntent = new Intent(this, LoginActivity.class);
+        mLoginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    }
+
+    private void setupViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -42,6 +63,42 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
+
+    private void setupFirebase() {
+        mFirebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    private void attachAuthStateListener() {
+        if (mAuthStateListener == null) {
+            mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                    if (currentUser != null) {
+                        mCurrentUser = currentUser;
+                        updateUIWithUserDetails();
+                    } else {
+                        startActivity(mLoginIntent);
+                    }
+                }
+            };
+        }
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    private void detachAuthStateListener() {
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+            mAuthStateListener = null;
+        }
+    }
+
+    private void updateUIWithUserDetails() {
+        View headerLayout = mNavigationView.getHeaderView(0);
+
+        TextView nameTextView = (TextView) headerLayout.findViewById(R.id.textView_header_name);
+        nameTextView.setText(mCurrentUser.getDisplayName());
     }
 
     private void selectNavigationItem(MenuItem item) {
@@ -69,10 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.navigation_logout:
-                Toast.makeText(MainActivity.this, R.string.logout, Toast.LENGTH_SHORT)
-                        .show();
-                setTitle(item.getTitle());
-                mDrawerLayout.closeDrawers();
+                mFirebaseAuth.signOut();
                 break;
 
             case R.id.navigation_feedback:
@@ -102,5 +156,17 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mActionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        detachAuthStateListener();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        attachAuthStateListener();
     }
 }
