@@ -153,12 +153,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         @Override
                         public void onCancel() {
-
+                            mProgressDialog.dismiss();
+                            showSignInFailedAlertDialog();
                         }
 
                         @Override
                         public void onError(FacebookException error) {
-
+                            mProgressDialog.dismiss();
+                            showSignInFailedAlertDialog();
                         }
                     });
         }
