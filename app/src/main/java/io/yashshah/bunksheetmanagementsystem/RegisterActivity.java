@@ -30,8 +30,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputLayout mFirstNameInputLayout;
@@ -227,16 +225,9 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.hasChild(mCurrentUser.getUid())) {
-                        HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("name", mCurrentUser.getDisplayName());
-                        hashMap.put("year", "");
-                        hashMap.put("division", "");
-                        hashMap.put("roll_no", "");
-                        hashMap.put("teacher_guardian", "");
-                        hashMap.put("class_teacher", "");
-                        hashMap.put("bunksheets_requested", "");
-
-                        mUsersDatabaseReference.child(mCurrentUser.getUid()).setValue(hashMap)
+                        User newUser
+                                = new User(mCurrentUser.getDisplayName(), mCurrentUser.getEmail());
+                        mUsersDatabaseReference.child(mCurrentUser.getUid()).setValue(newUser)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
