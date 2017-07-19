@@ -17,6 +17,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabaseReference;
+    private ValueEventListener mUserValueEventListener;
 
     private FirebaseUser mCurrentUser;
 
@@ -67,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupFirebase() {
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mDatabase.getReference();
+        mAuthStateListener = null;
+        mUserValueEventListener = null;
+        mCurrentUser = null;
     }
 
     private void attachAuthStateListener() {
@@ -77,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                     if (currentUser != null) {
                         mCurrentUser = currentUser;
-                        updateUIWithUserDetails();
+                        loadUserInfo();
                     } else {
                         startActivity(mLoginIntent);
                     }
@@ -94,11 +107,60 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUIWithUserDetails() {
-        View headerLayout = mNavigationView.getHeaderView(0);
+    private void loadUserInfo() {
+        mDatabaseReference = mDatabase.getReference().child("Users").child(mCurrentUser.getUid());
+        if (mUserValueEventListener == null) {
+            mUserValueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user != null) {
+                        updateNavigationDrawer(user.getName(), user.getYear(), user.getDivision(),
+                                user.getRollNumber(), user.getPrivilegeLevel());
+                    }
+                }
 
-        TextView nameTextView = (TextView) headerLayout.findViewById(R.id.textView_header_name);
-        nameTextView.setText(mCurrentUser.getDisplayName());
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+        }
+        mDatabaseReference.addListenerForSingleValueEvent(mUserValueEventListener);
+    }
+
+    private void updateNavigationDrawer(String name, String year, String division, String rollNo,
+                                        int privilegeLevel) {
+        View view = mNavigationView.getHeaderView(0);
+        TextView nameTextView = (TextView) view.findViewById(R.id.textView_header_name);
+        TextView yearDivisionTextView =
+                (TextView) view.findViewById(R.id.textView_header_year_division);
+        TextView rollNumberTextView = (TextView) view.findViewById(R.id.textView_header_rollNumber);
+
+        StringBuilder yearDivisionStringBuilder = new StringBuilder();
+        if (year.equals("2")) {
+            yearDivisionStringBuilder.append(getString(R.string.year_se));
+        } else if (year.equals("3")) {
+            yearDivisionStringBuilder.append(getString(R.string.year_te));
+        }
+        yearDivisionStringBuilder.append(" - ");
+        yearDivisionStringBuilder.append(division);
+
+        nameTextView.setText(name);
+        yearDivisionTextView.setText(yearDivisionStringBuilder.toString());
+        rollNumberTextView.setText(rollNo);
+
+        if (privilegeLevel > User.PRIVILEGE_STUDENT) {
+            mNavigationView
+                    .getMenu()
+                    .findItem(R.id.navigation_approve_bunksheets)
+                    .setVisible(true);
+        } else {
+            mNavigationView
+                    .getMenu()
+                    .findItem(R.id.navigation_approve_bunksheets)
+                    .setVisible(false);
+        }
     }
 
     private void selectNavigationItem(MenuItem item) {
@@ -162,6 +224,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         detachAuthStateListener();
+        if (mUserValueEventListener != null) {
+            mDatabaseReference.removeEventListener(mUserValueEventListener);
+        }
     }
 
     @Override

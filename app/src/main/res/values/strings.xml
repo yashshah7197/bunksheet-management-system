@@ -73,4 +73,7 @@
     <string name="reset_password_error">There was an error sending the password reset email. Please
         try again!</string>
 
+    <string name="year_se">SE</string>
+    <string name="year_te">TE</string>
+
 </resources>
