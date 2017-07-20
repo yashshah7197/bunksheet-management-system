@@ -76,4 +76,12 @@
     <string name="year_se">SE</string>
     <string name="year_te">TE</string>
 
+    <string name="save_profile">Save Profile</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="roll_number">Roll Number</string>
+    <string name="year">Year</string>
+    <string name="division">Division</string>
+    <string name="class_teacher">Class Teacher</string>
+    <string name="teacher_guardian">Teacher Guardian</string>
+
 </resources>
