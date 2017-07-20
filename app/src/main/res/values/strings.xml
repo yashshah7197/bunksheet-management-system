@@ -84,4 +84,6 @@
     <string name="class_teacher">Class Teacher</string>
     <string name="teacher_guardian">Teacher Guardian</string>
 
+    <string name="feedback_fragment">Feedback Fragment</string>
+
 </resources>
