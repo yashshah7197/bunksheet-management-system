@@ -113,7 +113,8 @@
                     <Spinner
                         android:id="@+id/spinner_year"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"/>
+                        android:layout_height="48dp"
+                        android:entries="@array/year_array"/>
 
                 </LinearLayout>
 
@@ -135,7 +136,8 @@
                     <Spinner
                         android:id="@+id/spinner_division"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"/>
+                        android:layout_height="48dp"
+                        android:entries="@array/division_array"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -160,7 +162,8 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginStart="12dp"/>
+                android:layout_marginStart="12dp"
+                android:entries="@array/classTeachers_array"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -182,7 +185,8 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginStart="12dp"/>
+                android:layout_marginStart="12dp"
+                android:entries="@array/teacherGuardians_array"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout_profile_rollNumber"

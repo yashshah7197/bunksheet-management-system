@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="year_array">
+        <item>@string/year_se</item>
+        <item>@string/year_te</item>
+    </string-array>
+
+    <string-array name="division_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="classTeachers_array">
+        <item>Prof. S. S. Barde</item>
+        <item>Mrs. Neha Godbole</item>
+        <item>Prof. Raghib Nazri</item>
+    </string-array>
+
+    <string-array name="teacherGuardians_array">
+        <item>Prof. G. S. Pise</item>
+        <item>Prof. Roma Kudale</item>
+        <item>Prof. Prasad Teli</item>
+    </string-array>
+</resources>
