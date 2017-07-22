@@ -1,33 +1,20 @@
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:orientation="vertical"
     tools:context="io.yashshah.bunksheetmanagementsystem.ProfileFragment">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/button_save_profile"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/save_profile"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/button_save_profile"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
@@ -209,5 +196,18 @@
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
-    </RelativeLayout>
-</ScrollView>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_save_profile"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/save_profile"/>
+</LinearLayout>
