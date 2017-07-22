@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
         }
-        mUserDatabaseReference.addListenerForSingleValueEvent(mUserValueEventListener);
+        mUserDatabaseReference.addValueEventListener(mUserValueEventListener);
     }
 
     private void updateNavigationDrawer(String name, String year, String division, String rollNo,
@@ -141,17 +141,10 @@ public class MainActivity extends AppCompatActivity {
                 (TextView) view.findViewById(R.id.textView_header_year_division);
         TextView rollNumberTextView = (TextView) view.findViewById(R.id.textView_header_rollNumber);
 
-        StringBuilder yearDivisionStringBuilder = new StringBuilder();
-        if (year.equals("2")) {
-            yearDivisionStringBuilder.append(getString(R.string.year_se));
-        } else if (year.equals("3")) {
-            yearDivisionStringBuilder.append(getString(R.string.year_te));
-        }
-        yearDivisionStringBuilder.append(" - ");
-        yearDivisionStringBuilder.append(division);
+        String yearDivisionString = year + " - " + division;
 
         nameTextView.setText(name);
-        yearDivisionTextView.setText(yearDivisionStringBuilder.toString());
+        yearDivisionTextView.setText(yearDivisionString);
         rollNumberTextView.setText(rollNo);
 
         if (privilegeLevel > User.PRIVILEGE_STUDENT) {
