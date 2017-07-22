@@ -86,4 +86,8 @@
 
     <string name="feedback_fragment">Feedback Fragment</string>
 
+    <string name="profile_update_successful">Profile updated successfully!</string>
+    <string name="profile_update_failed">"There was an unknown error while updating your profile.
+        Please try again!"</string>
+
 </resources>

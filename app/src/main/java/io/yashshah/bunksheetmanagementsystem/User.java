@@ -1,5 +1,8 @@
 package io.yashshah.bunksheetmanagementsystem;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by yashshah on 19/07/17.
  */
@@ -42,32 +45,64 @@ public class User {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getYear() {
         return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public String getDivision() {
         return division;
     }
 
+    public void setDivision(String division) {
+        this.division = division;
+    }
+
     public String getRollNumber() {
         return rollNumber;
+    }
+
+    public void setRollNumber(String rollNumber) {
+        this.rollNumber = rollNumber;
     }
 
     public String getClassTeacher() {
         return classTeacher;
     }
 
+    public void setClassTeacher(String classTeacher) {
+        this.classTeacher = classTeacher;
+    }
+
     public String getTeacherGuardian() {
         return teacherGuardian;
+    }
+
+    public void setTeacherGuardian(String teacherGuardian) {
+        this.teacherGuardian = teacherGuardian;
     }
 
     public int getBunksheetsRequested() {
@@ -76,5 +111,18 @@ public class User {
 
     public int getPrivilegeLevel() {
         return privilegeLevel;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> hashMap = new HashMap<>();
+        hashMap.put("name", name);
+        hashMap.put("phoneNumber", phoneNumber);
+        hashMap.put("year", year);
+        hashMap.put("division", division);
+        hashMap.put("rollNumber", rollNumber);
+        hashMap.put("classTeacher", classTeacher);
+        hashMap.put("teacherGuardian", teacherGuardian);
+
+        return hashMap;
     }
 }
