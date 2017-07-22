@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mDatabaseReference;
+    private DatabaseReference mUserDatabaseReference;
     private ValueEventListener mUserValueEventListener;
 
     private FirebaseUser mCurrentUser;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupFirebase() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference();
+        mUserDatabaseReference = mDatabase.getReference();
         mAuthStateListener = null;
         mUserValueEventListener = null;
         mCurrentUser = null;
@@ -109,7 +109,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUserInfo() {
-        mDatabaseReference = mDatabase.getReference().child("Users").child(mCurrentUser.getUid());
+        mUserDatabaseReference =
+                mDatabase.getReference().child("Users").child(mCurrentUser.getUid());
+        mUserDatabaseReference.keepSynced(true);
+
         if (mUserValueEventListener == null) {
             mUserValueEventListener = new ValueEventListener() {
                 @Override
@@ -127,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
         }
-        mDatabaseReference.addListenerForSingleValueEvent(mUserValueEventListener);
+        mUserDatabaseReference.addListenerForSingleValueEvent(mUserValueEventListener);
     }
 
     private void updateNavigationDrawer(String name, String year, String division, String rollNo,
@@ -231,7 +234,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         detachAuthStateListener();
         if (mUserValueEventListener != null) {
-            mDatabaseReference.removeEventListener(mUserValueEventListener);
+            mUserDatabaseReference.removeEventListener(mUserValueEventListener);
+            mUserValueEventListener = null;
         }
     }
 

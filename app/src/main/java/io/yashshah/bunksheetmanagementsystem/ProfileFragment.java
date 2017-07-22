@@ -100,6 +100,8 @@ public class ProfileFragment extends Fragment {
         mUserDatabaseReference =
                 mFirebaseDatabase.getReference().child("Users").child(mCurrentUser.getUid());
         mUserValueEventListener = null;
+
+        mUserDatabaseReference.keepSynced(true);
     }
 
     private void loadProfile() {
