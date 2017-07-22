@@ -58,6 +58,12 @@
             android:label="@string/forgot_password"
             android:parentActivityName=".LoginActivity">
         </activity>
+        <activity
+            android:name=".RequestBunksheetActivity"
+            android:label="@string/new_bunksheet"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>

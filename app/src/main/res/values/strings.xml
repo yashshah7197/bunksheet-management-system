@@ -90,4 +90,14 @@
     <string name="profile_update_failed">"There was an unknown error while updating your profile.
         Please try again!"</string>
 
+    <string name="new_bunksheet">New Bunksheet</string>
+    <string name="request_bunksheet">Request Bunksheet</string>
+    <string name="bunksheet_reason">Reason For Bunksheet</string>
+    <string name="number_entries">Number of Entries</string>
+    <string name="places_visited">Places Visited</string>
+    <string name="slot_first">First slot (8.15–10.15/12.00–2.00)</string>
+    <string name="slot_second">Second slot (10.30–12.30/2.30–4.30)</string>
+    <string name="slot_third">Third slot (1.30–4.30/4.45–6.45)</string>
+    <string name="time_slots">Time Slots</string>
+    <string name="date">Date</string>
 </resources>
