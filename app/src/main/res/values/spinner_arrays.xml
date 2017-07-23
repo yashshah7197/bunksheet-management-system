@@ -24,4 +24,10 @@
         <item>Prof. Roma Kudale</item>
         <item>Prof. Prasad Teli</item>
     </string-array>
+
+    <string-array name="bunksheetReasons_array">
+        <item>Campaigning</item>
+        <item>Sponsorship</item>
+        <item>Technical</item>
+    </string-array>
 </resources>
