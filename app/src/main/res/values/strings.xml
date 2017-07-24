@@ -100,4 +100,10 @@
     <string name="slot_third">Third slot (1.30–4.30/4.45–6.45)</string>
     <string name="time_slots">Time Slots</string>
     <string name="date">Date</string>
+
+    <string name="bunksheet_request_successful">Bunksheet request submitted successfully!</string>
+    <string name="bunksheet_request_failed">There was an error submitting your bunksheet request.
+        Please try again!</string>
+    <string name="bunksheet_validation_error">Validation error! Please fill out all fields correctly
+        and try again!</string>
 </resources>
