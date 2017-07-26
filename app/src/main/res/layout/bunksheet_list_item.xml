@@ -46,4 +46,13 @@
         android:layout_marginTop="4dp"
         android:textColor="@android:color/black"
         tools:text="24 July, 2017"/>
+
+    <TextView
+        android:id="@+id/textView_requestedBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@android:color/black"
+        tools:text="Requested By: "/>
+
 </LinearLayout>
