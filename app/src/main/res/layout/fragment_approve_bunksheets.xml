@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context="io.yashshah.bunksheetmanagementsystem.ApproveBunksheetsFragment">
 
-    <ListView
-        android:id="@+id/listView_approve_bunksheets"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_approve_bunksheets"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
