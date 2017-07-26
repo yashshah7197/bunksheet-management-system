@@ -15,9 +15,12 @@ import android.view.ViewGroup;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class BunksheetsFragment extends Fragment {
@@ -34,6 +37,8 @@ public class BunksheetsFragment extends Fragment {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private FirebaseUser mCurrentUser;
+
+    private User mUser;
 
     public BunksheetsFragment() {
         // Required empty public constructor
@@ -63,6 +68,7 @@ public class BunksheetsFragment extends Fragment {
 
         setupFirebase();
         setupRecyclerView();
+        getUser();
         attachRecyclerViewAdapter();
 
         return mRootView;
@@ -100,11 +106,31 @@ public class BunksheetsFragment extends Fragment {
                 @Override
                 protected void populateViewHolder(BunksheetViewHolder holder, Bunksheet bunksheet,
                                                   int position) {
-                    holder.bind(bunksheet);
+                    holder.bind(bunksheet, mUser);
                 }
             };
         }
         mRecyclerView.setAdapter(mFirebaseRecyclerAdapter);
+    }
+
+    private void getUser() {
+        DatabaseReference userDatabaseReference = mFirebaseDatabase.getReference()
+                .child("Users")
+                .child(mCurrentUser.getUid());
+
+        ValueEventListener singleValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUser = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        userDatabaseReference.addValueEventListener(singleValueEventListener);
     }
 
     @Override

@@ -115,4 +115,6 @@
     <string name="places">Places Visited:</string>
     <string name="entries">Entries:</string>
     <string name="date_textView">Date:</string>
+
+    <string name="requested_by">Requested By:</string>
 </resources>

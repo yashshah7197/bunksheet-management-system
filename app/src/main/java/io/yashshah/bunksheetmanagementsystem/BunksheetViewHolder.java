@@ -15,6 +15,7 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
     private TextView mNumberOfEntriesTextView;
     private TextView mSlotsTextView;
     private TextView mDateTextView;
+    private TextView mRequestedByTextView;
 
     public BunksheetViewHolder(View itemView) {
         super(itemView);
@@ -24,14 +25,16 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
         mNumberOfEntriesTextView = (TextView) itemView.findViewById(R.id.textView_numberOfEntries);
         mSlotsTextView = (TextView) itemView.findViewById(R.id.textView_slots);
         mDateTextView = (TextView) itemView.findViewById(R.id.textView_date);
+        mRequestedByTextView = (TextView) itemView.findViewById(R.id.textView_requestedBy);
     }
 
-    public void bind(Bunksheet bunksheet) {
+    public void bind(Bunksheet bunksheet, User user) {
         setReason(bunksheet.getReason());
         setPlacesVisited(bunksheet.getPlacesVisited());
         setNumberOfEntries(bunksheet.getNumberOfEntries());
         setSlots(bunksheet.getTimeSlots());
         setDate(bunksheet.getDate());
+        setRequestedBy(user.getName(), user.getPrivilegeLevel());
     }
 
     private void setReason(String reason) {
@@ -58,5 +61,15 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
     private void setDate(String date) {
         String dateString = itemView.getResources().getString(R.string.date_textView) + " " + date;
         mDateTextView.setText(dateString);
+    }
+
+    private void setRequestedBy(String requestedBy, int privilegeLevel) {
+        if (privilegeLevel == User.PRIVILEGE_STUDENT) {
+            mRequestedByTextView.setVisibility(View.GONE);
+        } else {
+            String requestedByString =
+                    itemView.getResources().getString(R.string.requested_by) + " " + requestedBy;
+            mRequestedByTextView.setText(requestedByString);
+        }
     }
 }
