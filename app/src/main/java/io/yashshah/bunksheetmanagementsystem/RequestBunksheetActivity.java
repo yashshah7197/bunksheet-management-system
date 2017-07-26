@@ -152,9 +152,7 @@ public class RequestBunksheetActivity extends AppCompatActivity
 
     private void createBunksheet() {
         if (mCurrentUser != null) {
-            mDatabaseReference = mFirebaseDatabase.getReference()
-                    .child("Bunksheets")
-                    .child(mCurrentUser.getUid());
+            mDatabaseReference = mFirebaseDatabase.getReference().child("Bunksheets");
 
             String reason = mReasonSpinner.getSelectedItem().toString();
             String date = mDateSpinner.getSelectedItem().toString();
@@ -165,15 +163,15 @@ public class RequestBunksheetActivity extends AppCompatActivity
 
             StringBuilder builder = new StringBuilder();
             if (mFirstSlotCheckBox.isChecked()) {
-                builder.append(getString(R.string.slot_first))
+                builder.append(getString(R.string.one))
                         .append(" ");
             }
             if (mSecondSlotCheckBox.isChecked()) {
-                builder.append(getString(R.string.slot_second))
+                builder.append(getString(R.string.two))
                         .append(" ");
             }
             if (mThirdSlotCheckBox.isChecked()) {
-                builder.append(getString(R.string.slot_third))
+                builder.append(getString(R.string.three))
                         .append(" ");
             }
             String slots = builder.toString();
