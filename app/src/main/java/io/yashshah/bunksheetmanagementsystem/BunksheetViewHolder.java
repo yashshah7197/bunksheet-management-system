@@ -4,12 +4,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 /**
  * Created by yashshah on 24/07/17.
  */
 
 public class BunksheetViewHolder extends RecyclerView.ViewHolder {
 
+    Bunksheet bunksheet;
+    User user;
     private TextView mReasonTextView;
     private TextView mPlacesVisitedTextView;
     private TextView mNumberOfEntriesTextView;
@@ -29,12 +37,16 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(Bunksheet bunksheet, User user) {
+        this.bunksheet = bunksheet;
+        this.user = user;
+
         setReason(bunksheet.getReason());
         setPlacesVisited(bunksheet.getPlacesVisited());
         setNumberOfEntries(bunksheet.getNumberOfEntries());
         setSlots(bunksheet.getTimeSlots());
         setDate(bunksheet.getDate());
-        setRequestedBy(user.getName(), user.getPrivilegeLevel());
+        setRequestedBy();
+        setRequestedByVisibility();
     }
 
     private void setReason(String reason) {
@@ -63,13 +75,32 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
         mDateTextView.setText(dateString);
     }
 
-    private void setRequestedBy(String requestedBy, int privilegeLevel) {
-        if (privilegeLevel == User.PRIVILEGE_STUDENT) {
+    private void setRequestedByVisibility() {
+        if (user.getPrivilegeLevel() == User.PRIVILEGE_STUDENT) {
             mRequestedByTextView.setVisibility(View.GONE);
-        } else {
-            String requestedByString =
-                    itemView.getResources().getString(R.string.requested_by) + " " + requestedBy;
-            mRequestedByTextView.setText(requestedByString);
         }
+    }
+
+    private void setRequestedBy() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference()
+                .child("Users")
+                .child(bunksheet.getUserUID())
+                .child("name");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = dataSnapshot.getValue(String.class);
+                String requestedByString =
+                        itemView.getResources().getString(R.string.requested_by) + " " + name;
+                mRequestedByTextView.setText(requestedByString);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
