@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
                     .getMenu()
                     .findItem(R.id.navigation_approve_bunksheets)
                     .setVisible(true);
+            mNavigationView
+                    .getMenu()
+                    .findItem(R.id.navigation_bunksheets)
+                    .setVisible(false);
         } else {
             mNavigationView
                     .getMenu()
