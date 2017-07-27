@@ -28,6 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class ApproveBunksheetsFragment extends Fragment {
 
@@ -218,18 +221,25 @@ public class ApproveBunksheetsFragment extends Fragment {
                             .show();
                 } else {
                     if (approved) {
-                        databaseReference
-                                .child("approvalLevel")
-                                .setValue(mUser.getPrivilegeLevel())
+                        StringBuilder approvedBy = new StringBuilder();
+                        if (bunksheet.getApprovedBy().equals(getString(R.string.na))) {
+                            approvedBy.append(mUser.getName());
+                        } else {
+                            approvedBy.append(bunksheet.getApprovedBy())
+                                    .append(", ")
+                                    .append(mUser.getName());
+                        }
+
+                        Map<String, Object> childMap = new HashMap<>();
+                        childMap.put("approvalLevel", mUser.getPrivilegeLevel());
+                        childMap.put("approvedBy", approvedBy.toString());
+                        databaseReference.updateChildren(childMap)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(getActivity(),
-                                                    getString(R.string.approved_successfully),
-                                                    Toast.LENGTH_LONG)
-                                                    .show();
-                                        }
+                                        Toast.makeText(getActivity(),
+                                                getString(R.string.approved_successfully),
+                                                Toast.LENGTH_LONG).show();
                                     }
                                 });
                     }

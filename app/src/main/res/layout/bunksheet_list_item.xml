@@ -55,4 +55,12 @@
         android:textColor="@android:color/black"
         tools:text="Requested By: "/>
 
+    <TextView
+        android:id="@+id/textView_approvedBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@android:color/black"
+        tools:text="Approved By: "/>
+
 </LinearLayout>

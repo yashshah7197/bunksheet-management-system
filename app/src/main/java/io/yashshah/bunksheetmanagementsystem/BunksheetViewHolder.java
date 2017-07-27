@@ -16,14 +16,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class BunksheetViewHolder extends RecyclerView.ViewHolder {
 
-    Bunksheet bunksheet;
-    User user;
+    private Bunksheet bunksheet;
+    private User user;
     private TextView mReasonTextView;
     private TextView mPlacesVisitedTextView;
     private TextView mNumberOfEntriesTextView;
     private TextView mSlotsTextView;
     private TextView mDateTextView;
     private TextView mRequestedByTextView;
+    private TextView mApprovedByTextView;
 
     public BunksheetViewHolder(View itemView) {
         super(itemView);
@@ -34,6 +35,7 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
         mSlotsTextView = (TextView) itemView.findViewById(R.id.textView_slots);
         mDateTextView = (TextView) itemView.findViewById(R.id.textView_date);
         mRequestedByTextView = (TextView) itemView.findViewById(R.id.textView_requestedBy);
+        mApprovedByTextView = (TextView) itemView.findViewById(R.id.textView_approvedBy);
     }
 
     public void bind(Bunksheet bunksheet, User user) {
@@ -47,6 +49,7 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
         setDate(bunksheet.getDate());
         setRequestedBy();
         setRequestedByVisibility();
+        setApprovedBy(bunksheet.getApprovedBy());
     }
 
     private void setReason(String reason) {
@@ -102,5 +105,11 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
 
             }
         });
+    }
+
+    private void setApprovedBy(String approvedBy) {
+        String approvedByString =
+                itemView.getResources().getString(R.string.approved_by) + " " + approvedBy;
+        mApprovedByTextView.setText(approvedByString);
     }
 }
