@@ -184,6 +184,7 @@ public class RequestBunksheetActivity extends AppCompatActivity
             bunksheet.setPlacesVisited(placesVisited);
             bunksheet.setNumberOfEntries(numberOfEntries);
             bunksheet.setApprovalLevel(User.PRIVILEGE_STUDENT);
+            bunksheet.setApprovedBy(getString(R.string.na));
 
             mDatabaseReference.push().setValue(bunksheet)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {

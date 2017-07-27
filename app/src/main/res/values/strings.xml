@@ -122,4 +122,6 @@
     <string name="approved_successfully">Bunksheet approved successfully!</string>
 
     <string name="approved_bunksheets">Approved Bunksheets</string>
+    
+    <string name="na">N/A</string>
 </resources>
