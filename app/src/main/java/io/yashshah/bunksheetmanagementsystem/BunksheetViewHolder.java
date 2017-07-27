@@ -1,5 +1,6 @@
 package io.yashshah.bunksheetmanagementsystem;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
         setRequestedBy();
         setRequestedByVisibility();
         setApprovedBy(bunksheet.getApprovedBy());
+        setApprovedByColor(bunksheet.getApprovalLevel());
     }
 
     private void setReason(String reason) {
@@ -108,8 +110,19 @@ public class BunksheetViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setApprovedBy(String approvedBy) {
-        String approvedByString =
-                itemView.getResources().getString(R.string.approved_by) + " " + approvedBy;
-        mApprovedByTextView.setText(approvedByString);
+        mApprovedByTextView.setText(approvedBy);
+    }
+
+    private void setApprovedByColor(int approvalLevel) {
+        if (approvalLevel == User.PRIVILEGE_STUDENT) {
+            mApprovedByTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),
+                    R.color.colorRed));
+        } else if (approvalLevel == User.PRIVILEGE_HEAD) {
+            mApprovedByTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),
+                    R.color.colorOrange));
+        } else if (approvalLevel == User.PRIVILEGE_TEACHER || approvalLevel == User.PRIVILEGE_HOD) {
+            mApprovedByTextView.setTextColor(ContextCompat.getColor(itemView.getContext(),
+                    R.color.colorGreen));
+        }
     }
 }
