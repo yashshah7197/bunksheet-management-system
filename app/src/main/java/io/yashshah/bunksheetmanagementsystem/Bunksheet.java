@@ -13,6 +13,7 @@ public class Bunksheet {
     private String placesVisited;
     private int numberOfEntries;
     private int approvalLevel;
+    private String approvedBy;
 
     public Bunksheet() {
     }
@@ -71,5 +72,13 @@ public class Bunksheet {
 
     public void setApprovalLevel(int approvalLevel) {
         this.approvalLevel = approvalLevel;
+    }
+
+    public String getApprovedBy() {
+        return approvedBy;
+    }
+
+    public void setApprovedBy(String approvedBy) {
+        this.approvedBy = approvedBy;
     }
 }
