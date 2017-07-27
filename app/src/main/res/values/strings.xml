@@ -136,4 +136,7 @@
 
     <string name="invalid_phoneNumber">Please enter a valid phone number!</string>
     <string name="invalid_rollNumber">Please enter a valid roll number!</string>
+
+    <string name="invalid_place">Please enter a valid place!</string>
+    <string name="invalid_numberEntries">Please enter a valid number!</string>
 </resources>

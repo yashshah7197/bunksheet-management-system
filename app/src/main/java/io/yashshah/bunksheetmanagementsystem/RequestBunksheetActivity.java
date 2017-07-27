@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -73,6 +76,7 @@ public class RequestBunksheetActivity extends AppCompatActivity
                 new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, mArrayList);
 
         setupViews();
+        setupTextWatchers();
         setupFirebase();
     }
 
@@ -111,6 +115,52 @@ public class RequestBunksheetActivity extends AppCompatActivity
                             Toast.LENGTH_LONG)
                             .show();
                 }
+            }
+        });
+    }
+
+    private void setupTextWatchers() {
+        final EditText placesVisitedEditText = mPlacesVisitedInputLayout.getEditText();
+        placesVisitedEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence sequence, int start, int before, int count) {
+                if (isValidPlace(sequence)) {
+                    mPlacesVisitedInputLayout.setErrorEnabled(false);
+                } else {
+                    mPlacesVisitedInputLayout.setError(getString(R.string.invalid_place));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        final EditText numberOfEntriesEditText = mNumberOfEntriesInputLayout.getEditText();
+        numberOfEntriesEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence sequence, int start, int before, int count) {
+                if (isValidNumberOfEntries(sequence)) {
+                    mNumberOfEntriesInputLayout.setErrorEnabled(false);
+                } else {
+                    mNumberOfEntriesInputLayout.setError(getString(R.string.invalid_numberEntries));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
