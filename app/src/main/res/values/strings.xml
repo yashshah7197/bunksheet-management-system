@@ -125,4 +125,9 @@
     <string name="approved_by">Approved By:</string>
 
     <string name="na">N/A</string>
+
+    <string name="profile_incomplete_title">Profile Incomplete</string>
+    <string name="profile_incomplete_message">You must fill your profile completely before you can
+        request bunksheets!</string>
+    <string name="go_to_profile">Go To Profile Screen</string>
 </resources>
