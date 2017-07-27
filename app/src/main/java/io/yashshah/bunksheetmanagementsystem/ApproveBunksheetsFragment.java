@@ -1,16 +1,24 @@
 package io.yashshah.bunksheetmanagementsystem;
 
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,9 +29,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ApproveBunksheetsFragment extends Fragment {
 
     private View mRootView;
@@ -33,6 +38,10 @@ public class ApproveBunksheetsFragment extends Fragment {
 
     private LinearLayoutManager mLinearLayoutManager;
     private DividerItemDecoration mDividerItemDecoration;
+
+    private ItemTouchHelper mItemTouchHelper;
+    private ItemTouchHelper.SimpleCallback mItemTouchHelperCallback;
+    private Paint mPaint;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseDatabase mFirebaseDatabase;
@@ -57,11 +66,11 @@ public class ApproveBunksheetsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_approve_bunksheets, container, false);
 
         setupFirebase();
         setupRecyclerView();
+        setupRecyclerViewSwipeGestures();
         getUser();
 
         return mRootView;
@@ -88,24 +97,75 @@ public class ApproveBunksheetsFragment extends Fragment {
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
     }
 
-    private void attachRecyclerViewAdapter() {
-        Query query = null;
-        if (mUser.getPrivilegeLevel() == User.PRIVILEGE_HEAD) {
-            query = mDatabaseReference
-                    .orderByChild("approvalLevel")
-                    .startAt(User.PRIVILEGE_STUDENT)
-                    .endAt(User.PRIVILEGE_HOD);
-        } else if (mUser.getPrivilegeLevel() == User.PRIVILEGE_TEACHER) {
-            query = mDatabaseReference
-                    .orderByChild("approvalLevel")
-                    .startAt(User.PRIVILEGE_HEAD)
-                    .endAt(User.PRIVILEGE_HOD);
-        } else if (mUser.getPrivilegeLevel() == User.PRIVILEGE_HOD) {
-            query = mDatabaseReference
-                    .orderByChild("approvalLevel")
-                    .startAt(User.PRIVILEGE_TEACHER)
-                    .endAt(User.PRIVILEGE_HOD);
+    private void setupRecyclerViewSwipeGestures() {
+        mPaint = new Paint();
+
+        if (mItemTouchHelperCallback == null) {
+            mItemTouchHelperCallback =
+                    new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP, ItemTouchHelper.LEFT
+                            | ItemTouchHelper.RIGHT) {
+                        @Override
+                        public boolean onMove(RecyclerView recyclerView,
+                                              RecyclerView.ViewHolder viewHolder,
+                                              RecyclerView.ViewHolder target) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                            int position = viewHolder.getAdapterPosition();
+                            String bunksheetKey = mFirebaseRecyclerAdapter
+                                    .getRef(position)
+                                    .getKey();
+
+                            if (direction == ItemTouchHelper.LEFT) {
+                                changeBunksheetApprovalStatus(bunksheetKey, false);
+                                mFirebaseRecyclerAdapter.notifyItemRemoved(position);
+                                mFirebaseRecyclerAdapter.notifyDataSetChanged();
+                            } else if (direction == ItemTouchHelper.RIGHT) {
+                                mFirebaseRecyclerAdapter.notifyItemRemoved(position);
+                                mFirebaseRecyclerAdapter.notifyDataSetChanged();
+                                changeBunksheetApprovalStatus(bunksheetKey, true);
+                            }
+                        }
+
+                        @Override
+                        public void onChildDraw(Canvas c, RecyclerView recyclerView,
+                                                RecyclerView.ViewHolder viewHolder, float dX,
+                                                float dY, int actionState,
+                                                boolean isCurrentlyActive) {
+                            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                                View itemView = viewHolder.itemView;
+
+                                if (dX > 0) {
+                                    mPaint.setColor(ContextCompat.getColor(getActivity(),
+                                            R.color.colorGreen));
+                                    c.drawRect((float) itemView.getLeft(), (float)
+                                                    itemView.getTop(), dX,
+                                            (float) itemView.getBottom(), mPaint);
+                                } else {
+                                    mPaint.setColor(ContextCompat.getColor(getActivity(),
+                                            R.color.colorRed));
+                                    c.drawRect((float) itemView.getRight() + dX,
+                                            (float) itemView.getTop(), (float) itemView.getRight(),
+                                            (float) itemView.getBottom(), mPaint);
+                                }
+                            }
+
+                            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState,
+                                    isCurrentlyActive);
+                        }
+                    };
+
+            mItemTouchHelper = new ItemTouchHelper(mItemTouchHelperCallback);
+            mItemTouchHelper.attachToRecyclerView(mRecyclerView);
         }
+    }
+
+    private void attachRecyclerViewAdapter() {
+        Query query = mDatabaseReference
+                .orderByChild("approvalLevel")
+                .equalTo(mUser.getPrivilegeLevel() - 1);
 
         if (mFirebaseRecyclerAdapter == null && query != null) {
             mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Bunksheet, BunksheetViewHolder>(
@@ -142,6 +202,46 @@ public class ApproveBunksheetsFragment extends Fragment {
         };
 
         userDatabaseReference.addValueEventListener(singleValueEventListener);
+    }
+
+    private void changeBunksheetApprovalStatus(String bunksheetKey, final boolean approved) {
+        final DatabaseReference databaseReference =
+                mFirebaseDatabase.getReference().child("Bunksheets").child(bunksheetKey);
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Bunksheet bunksheet = dataSnapshot.getValue(Bunksheet.class);
+                if (bunksheet.getApprovalLevel() == mUser.getPrivilegeLevel()) {
+                    Toast.makeText(getActivity(), getString(R.string.already_approved),
+                            Toast.LENGTH_LONG)
+                            .show();
+                } else {
+                    if (approved) {
+                        databaseReference
+                                .child("approvalLevel")
+                                .setValue(mUser.getPrivilegeLevel())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getActivity(),
+                                                    getString(R.string.approved_successfully),
+                                                    Toast.LENGTH_LONG)
+                                                    .show();
+                                        }
+                                    }
+                                });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        databaseReference.addListenerForSingleValueEvent(valueEventListener);
     }
 
     @Override

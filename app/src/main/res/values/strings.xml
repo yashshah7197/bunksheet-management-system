@@ -117,4 +117,7 @@
     <string name="date_textView">Date:</string>
 
     <string name="requested_by">Requested By:</string>
+
+    <string name="already_approved">Bunksheet already approved!</string>
+    <string name="approved_successfully">Bunksheet approved successfully!</string>
 </resources>
