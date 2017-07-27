@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.regex.Pattern;
 
 public class ProfileFragment extends Fragment {
 
@@ -88,7 +91,13 @@ public class ProfileFragment extends Fragment {
         mSaveProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveProfileInfo();
+                if (isValidInput()) {
+                    saveProfileInfo();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.profile_validation_error),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
     }
@@ -186,6 +195,49 @@ public class ProfileFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    public boolean isValidFirstName(CharSequence firstName) {
+        return (!TextUtils.isEmpty(firstName));
+    }
+
+    public boolean isValidLastName(CharSequence lastName) {
+        return (!TextUtils.isEmpty(lastName));
+    }
+
+    public boolean isValidPhoneNumber(CharSequence phoneNumber) {
+        return (!TextUtils.isEmpty(phoneNumber) && Pattern.matches("^[789]\\d{9}$", phoneNumber));
+    }
+
+    public boolean isValidRollNumber(CharSequence rollNumber) {
+        return (!TextUtils.isEmpty(rollNumber) && Pattern.matches("^\\d{3}$", rollNumber));
+    }
+
+    public boolean isValidYear() {
+        return !mYearSpinner.getSelectedItem().toString().equals(getString(R.string.na));
+    }
+
+    public boolean isValidDivision() {
+        return !mDivisionSpinner.getSelectedItem().toString().equals(getString(R.string.na));
+    }
+
+    public boolean isValidClassTeacher() {
+        return !mClassTeacherSpinner.getSelectedItem().toString().equals(R.string.na);
+    }
+
+    public boolean isValidTeacherGuardian() {
+        return !mTeacherGuardianSpinner.getSelectedItem().toString().equals(R.string.na);
+    }
+
+    public boolean isValidInput() {
+        CharSequence firstName = mFirstNameInputLayout.getEditText().getText();
+        CharSequence lastname = mLastNameInputLayout.getEditText().getText();
+        CharSequence phoneNumber = mPhoneNumberInputLayout.getEditText().getText();
+        CharSequence rollNumber = mRollNumberInputLayout.getEditText().getText();
+
+        return (isValidFirstName(firstName) && isValidLastName(lastname)
+                && isValidPhoneNumber(phoneNumber) && isValidRollNumber(rollNumber) && isValidYear()
+                && isValidDivision() && isValidClassTeacher() && isValidTeacherGuardian());
     }
 
     @Override

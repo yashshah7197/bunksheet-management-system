@@ -130,4 +130,7 @@
     <string name="profile_incomplete_message">You must fill your profile completely before you can
         request bunksheets!</string>
     <string name="go_to_profile">Go To Profile Screen</string>
+
+    <string name="profile_validation_error">Validation error! Please fill out all fields correctly
+        and try again!</string>
 </resources>

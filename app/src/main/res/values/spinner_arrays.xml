@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="year_array">
+        <item>@string/na</item>
         <item>@string/year_se</item>
         <item>@string/year_te</item>
     </string-array>
 
     <string-array name="division_array">
+        <item>@string/na</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -14,21 +16,23 @@
     </string-array>
 
     <string-array name="classTeachers_array">
+        <item>@string/na</item>
         <item>Prof. S. S. Barde</item>
         <item>Mrs. Neha Godbole</item>
         <item>Prof. Raghib Nazri</item>
     </string-array>
 
     <string-array name="teacherGuardians_array">
+        <item>@string/na</item>
         <item>Prof. G. S. Pise</item>
         <item>Prof. Roma Kudale</item>
         <item>Prof. Prasad Teli</item>
     </string-array>
 
     <string-array name="bunksheetReasons_array">
+        <item>Art</item>
         <item>Campaigning</item>
         <item>Sponsorship</item>
         <item>Technical</item>
-        <item>Art</item>
     </string-array>
 </resources>
