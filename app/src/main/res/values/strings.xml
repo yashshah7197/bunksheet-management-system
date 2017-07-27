@@ -120,4 +120,6 @@
 
     <string name="already_approved">Bunksheet already approved!</string>
     <string name="approved_successfully">Bunksheet approved successfully!</string>
+
+    <string name="approved_bunksheets">Approved Bunksheets</string>
 </resources>

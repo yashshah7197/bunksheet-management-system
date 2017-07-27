@@ -156,6 +156,10 @@ public class MainActivity extends AppCompatActivity {
                     .getMenu()
                     .findItem(R.id.navigation_bunksheets)
                     .setVisible(false);
+            mNavigationView
+                    .getMenu()
+                    .findItem(R.id.navigation_approved_bunksheets)
+                    .setVisible(true);
         } else {
             mNavigationView
                     .getMenu()
@@ -176,6 +180,12 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.navigation_approve_bunksheets:
                 fragment = ApproveBunksheetsFragment.newInstance();
+                setTitle(item.getTitle());
+                mDrawerLayout.closeDrawers();
+                break;
+
+            case R.id.navigation_approved_bunksheets:
+                fragment = ApprovedBunksheetsFragment.newInstance();
                 setTitle(item.getTitle());
                 mDrawerLayout.closeDrawers();
                 break;

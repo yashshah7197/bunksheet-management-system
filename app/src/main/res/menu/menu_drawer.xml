@@ -10,8 +10,14 @@
 
         <item
             android:id="@+id/navigation_approve_bunksheets"
-            android:icon="@drawable/ic_assignment_turned_in_black_24dp"
+            android:icon="@drawable/ic_assignment_black_24dp"
             android:title="@string/approve_bunksheets"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/navigation_approved_bunksheets"
+            android:icon="@drawable/ic_assignment_turned_in_black_24dp"
+            android:title="@string/approved_bunksheets"
             android:visible="false"/>
 
         <item
