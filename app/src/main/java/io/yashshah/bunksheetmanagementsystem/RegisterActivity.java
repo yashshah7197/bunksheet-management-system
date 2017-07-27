@@ -88,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
         mProgressDialog.setMessage(getString(R.string.creating_user));
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
 
         mRegisterButton = (Button) findViewById(R.id.button_register);
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
