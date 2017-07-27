@@ -141,4 +141,8 @@
     <string name="invalid_numberEntries">Please enter a valid number!</string>
 
     <string name="future_date_error">You cannot set a date of the future!</string>
+
+    <string name="submitting_bunksheet_title">Submitting Bunksheet Request</string>
+    <string name="submitting_bunksheet_message">Please wait while we are submitting your bunksheet
+        request…</string>
 </resources>

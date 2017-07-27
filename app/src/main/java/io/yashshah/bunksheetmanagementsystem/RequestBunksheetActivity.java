@@ -1,5 +1,6 @@
 package io.yashshah.bunksheetmanagementsystem;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -48,6 +49,8 @@ public class RequestBunksheetActivity extends AppCompatActivity
     private TextInputLayout mNumberOfEntriesInputLayout;
 
     private Button mRequestBunksheetButton;
+
+    private ProgressDialog mProgressDialog;
 
     private Calendar mCalendar;
 
@@ -117,6 +120,13 @@ public class RequestBunksheetActivity extends AppCompatActivity
                 }
             }
         });
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setTitle(getString(R.string.submitting_bunksheet_title));
+        mProgressDialog.setMessage(getString(R.string.submitting_bunksheet_message));
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
     }
 
     private void setupTextWatchers() {
@@ -208,6 +218,7 @@ public class RequestBunksheetActivity extends AppCompatActivity
     }
 
     private void createBunksheet() {
+        mProgressDialog.show();
         if (mCurrentUser != null) {
             mDatabaseReference = mFirebaseDatabase.getReference().child("Bunksheets");
 
@@ -275,15 +286,19 @@ public class RequestBunksheetActivity extends AppCompatActivity
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        mProgressDialog.dismiss();
                                         Toast.makeText(RequestBunksheetActivity.this,
                                                 getString(R.string.bunksheet_request_successful),
                                                 Toast.LENGTH_LONG)
                                                 .show();
+                                        finish();
                                     } else {
+                                        mProgressDialog.dismiss();
                                         Toast.makeText(RequestBunksheetActivity.this,
                                                 getString(R.string.bunksheet_request_failed),
                                                 Toast.LENGTH_LONG)
                                                 .show();
+                                        finish();
                                     }
                                 }
                             });
