@@ -133,4 +133,7 @@
 
     <string name="profile_validation_error">Validation error! Please fill out all fields correctly
         and try again!</string>
+
+    <string name="invalid_phoneNumber">Please enter a valid phone number!</string>
+    <string name="invalid_rollNumber">Please enter a valid roll number!</string>
 </resources>

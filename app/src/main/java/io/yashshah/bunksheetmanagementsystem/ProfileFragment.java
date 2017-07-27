@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -66,6 +69,7 @@ public class ProfileFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         setupViews();
+        setupTextWatchers();
         setupFirebase();
         loadProfile();
 
@@ -98,6 +102,96 @@ public class ProfileFragment extends Fragment {
                             Toast.LENGTH_LONG)
                             .show();
                 }
+            }
+        });
+    }
+
+    private void setupTextWatchers() {
+        final EditText firstNameEditText = mFirstNameInputLayout.getEditText();
+        firstNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence sequence, int start, int before, int count) {
+                if (isValidFirstName(sequence)) {
+                    mFirstNameInputLayout.setErrorEnabled(false);
+                } else {
+                    mFirstNameInputLayout.setError(getString(R.string.invalid_first_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        final EditText lastNameEditText = mLastNameInputLayout.getEditText();
+        lastNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence sequence, int start, int before, int count) {
+                if (isValidLastName(sequence)) {
+                    mLastNameInputLayout.setErrorEnabled(false);
+                } else {
+                    mLastNameInputLayout.setError(getString(R.string.invalid_last_name));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        final EditText phoneNumberEditText = mPhoneNumberInputLayout.getEditText();
+        phoneNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence sequence, int start, int before, int count) {
+                if (isValidPhoneNumber(sequence)) {
+                    mPhoneNumberInputLayout.setErrorEnabled(false);
+                } else {
+                    mPhoneNumberInputLayout.setError(getString(R.string.invalid_phoneNumber));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        final EditText rollNumberEditText = mRollNumberInputLayout.getEditText();
+        rollNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence sequence, int start, int before, int count) {
+                if (isValidRollNumber(sequence)) {
+                    mRollNumberInputLayout.setErrorEnabled(false);
+                } else {
+                    mRollNumberInputLayout.setError(getString(R.string.invalid_rollNumber));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
