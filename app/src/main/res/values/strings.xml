@@ -139,4 +139,6 @@
 
     <string name="invalid_place">Please enter a valid place!</string>
     <string name="invalid_numberEntries">Please enter a valid number!</string>
+
+    <string name="future_date_error">You cannot set a date of the future!</string>
 </resources>

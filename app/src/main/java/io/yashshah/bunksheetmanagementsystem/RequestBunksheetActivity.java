@@ -190,6 +190,13 @@ public class RequestBunksheetActivity extends AppCompatActivity
     @Override
     public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear,
                           int dayOfMonth) {
+        if (isFutureDate(dayOfMonth, monthOfYear, year)) {
+            Toast.makeText(RequestBunksheetActivity.this, getString(R.string.future_date_error),
+                    Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
         mCalendar.set(Calendar.MONTH, monthOfYear);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM", Locale.US);
         String month = simpleDateFormat.format(mCalendar.getTime());
@@ -308,6 +315,14 @@ public class RequestBunksheetActivity extends AppCompatActivity
         CharSequence numberOfEntries = mNumberOfEntriesInputLayout.getEditText().getText();
 
         return (isValidSlot() && isValidPlace(places) && isValidNumberOfEntries(numberOfEntries));
+    }
+
+    private boolean isFutureDate(int dayOfMonth, int monthOfYear, int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        calendar.set(Calendar.MONTH, monthOfYear);
+        calendar.set(Calendar.YEAR, year);
+        return calendar.getTime().after(Calendar.getInstance().getTime());
     }
 
     private void cleanupSingleValueEventListener() {
