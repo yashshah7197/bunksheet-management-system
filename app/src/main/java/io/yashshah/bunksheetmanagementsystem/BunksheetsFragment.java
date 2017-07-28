@@ -129,6 +129,9 @@ public class BunksheetsFragment extends Fragment {
     }
 
     private void attachRecyclerViewAdapter() {
+        if (mFirebaseRecyclerAdapter != null) {
+            mFirebaseRecyclerAdapter.notifyDataSetChanged();
+        }
         Query query = mDatabaseReference.orderByChild("userUID").equalTo(mCurrentUser.getUid());
         mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Bunksheet, BunksheetViewHolder>(
                 Bunksheet.class,
