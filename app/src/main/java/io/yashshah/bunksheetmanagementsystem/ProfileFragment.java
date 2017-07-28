@@ -316,20 +316,20 @@ public class ProfileFragment extends Fragment {
     }
 
     public boolean isValidClassTeacher() {
-        return !mClassTeacherSpinner.getSelectedItem().toString().equals(R.string.na);
+        return !mClassTeacherSpinner.getSelectedItem().toString().equals(getString(R.string.na));
     }
 
     public boolean isValidTeacherGuardian() {
-        return !mTeacherGuardianSpinner.getSelectedItem().toString().equals(R.string.na);
+        return !mTeacherGuardianSpinner.getSelectedItem().toString().equals(getString(R.string.na));
     }
 
     public boolean isValidInput() {
         CharSequence firstName = mFirstNameInputLayout.getEditText().getText();
-        CharSequence lastname = mLastNameInputLayout.getEditText().getText();
+        CharSequence lastName = mLastNameInputLayout.getEditText().getText();
         CharSequence phoneNumber = mPhoneNumberInputLayout.getEditText().getText();
         CharSequence rollNumber = mRollNumberInputLayout.getEditText().getText();
 
-        return (isValidFirstName(firstName) && isValidLastName(lastname)
+        return (isValidFirstName(firstName) && isValidLastName(lastName)
                 && isValidPhoneNumber(phoneNumber) && isValidRollNumber(rollNumber) && isValidYear()
                 && isValidDivision() && isValidClassTeacher() && isValidTeacherGuardian());
     }
