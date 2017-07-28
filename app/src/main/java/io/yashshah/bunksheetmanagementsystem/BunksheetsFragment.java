@@ -130,19 +130,17 @@ public class BunksheetsFragment extends Fragment {
 
     private void attachRecyclerViewAdapter() {
         Query query = mDatabaseReference.orderByChild("userUID").equalTo(mCurrentUser.getUid());
-        if (mFirebaseRecyclerAdapter == null) {
-            mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Bunksheet, BunksheetViewHolder>(
-                    Bunksheet.class,
-                    R.layout.bunksheet_list_item,
-                    BunksheetViewHolder.class,
-                    query) {
-                @Override
-                protected void populateViewHolder(BunksheetViewHolder holder, Bunksheet bunksheet,
-                                                  int position) {
-                    holder.bind(bunksheet, mUser);
-                }
-            };
-        }
+        mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Bunksheet, BunksheetViewHolder>(
+                Bunksheet.class,
+                R.layout.bunksheet_list_item,
+                BunksheetViewHolder.class,
+                query) {
+            @Override
+            protected void populateViewHolder(BunksheetViewHolder holder, Bunksheet bunksheet,
+                                              int position) {
+                holder.bind(bunksheet, mUser);
+            }
+        };
         mRecyclerView.setAdapter(mFirebaseRecyclerAdapter);
     }
 
