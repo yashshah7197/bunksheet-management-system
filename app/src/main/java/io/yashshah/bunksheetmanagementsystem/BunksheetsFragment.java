@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -93,14 +92,7 @@ public class BunksheetsFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Fragment fragment = ProfileFragment.newInstance();
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager
-                                .beginTransaction()
-                                .replace(R.id.frameLayout_fragments, fragment)
-                                .commit();
-                        getActivity().setTitle(R.string.profile);
-                        ((MainActivity) getActivity()).setDrawerCheckItem(R.id.navigation_profile);
+                        ((MainActivity) getActivity()).selectDrawerItem(R.id.navigation_profile);
                     }
                 });
         builder.setCancelable(false);

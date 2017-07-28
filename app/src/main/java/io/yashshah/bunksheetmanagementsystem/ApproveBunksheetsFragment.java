@@ -1,12 +1,14 @@
 package io.yashshah.bunksheetmanagementsystem;
 
 
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -74,9 +76,33 @@ public class ApproveBunksheetsFragment extends Fragment {
         setupFirebase();
         setupRecyclerView();
         setupRecyclerViewSwipeGestures();
-        getUser();
 
         return mRootView;
+    }
+
+    private boolean isProfileFilled() {
+        if (mUser.getName().equals("") || mUser.getPhoneNumber().equals("")
+                || mUser.getYear().equals("") || mUser.getDivision().equals("")
+                || mUser.getClassTeacher().equals("") || mUser.getTeacherGuardian().equals("")
+                || mUser.getRollNumber().equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    private void showFillProfileAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.profile_incomplete_title));
+        builder.setMessage(getString(R.string.profile_incomplete_message_approveBunksheets));
+        builder.setPositiveButton(getString(R.string.go_to_profile),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((MainActivity) getActivity()).selectDrawerItem(R.id.navigation_profile);
+                    }
+                });
+        builder.setCancelable(false);
+        builder.show();
     }
 
     private void setupFirebase() {
@@ -170,7 +196,7 @@ public class ApproveBunksheetsFragment extends Fragment {
                 .orderByChild("approvalLevel")
                 .equalTo(mUser.getPrivilegeLevel() - 1);
 
-        if (mFirebaseRecyclerAdapter == null && query != null) {
+        if (mFirebaseRecyclerAdapter == null) {
             mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Bunksheet, BunksheetViewHolder>(
                     Bunksheet.class,
                     R.layout.bunksheet_list_item,
@@ -195,7 +221,11 @@ public class ApproveBunksheetsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUser = dataSnapshot.getValue(User.class);
-                attachRecyclerViewAdapter();
+                if (isProfileFilled()) {
+                    attachRecyclerViewAdapter();
+                } else {
+                    showFillProfileAlertDialog();
+                }
             }
 
             @Override

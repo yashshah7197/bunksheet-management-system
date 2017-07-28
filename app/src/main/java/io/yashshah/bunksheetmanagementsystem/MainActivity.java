@@ -24,11 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-interface DrawerItemCheckerInterface {
-    void setDrawerCheckItem(int itemId);
+interface DrawerItemSelectorInterface {
+    void selectDrawerItem(int itemId);
 }
 
-public class MainActivity extends AppCompatActivity implements DrawerItemCheckerInterface {
+public class MainActivity extends AppCompatActivity implements DrawerItemSelectorInterface {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements DrawerItemChecker
     }
 
     @Override
-    public void setDrawerCheckItem(int itemId) {
-        mNavigationView.setCheckedItem(itemId);
+    public void selectDrawerItem(int itemId) {
+        selectNavigationItem(mNavigationView.getMenu().findItem(itemId));
     }
 }

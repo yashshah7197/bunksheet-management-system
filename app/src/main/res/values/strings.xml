@@ -129,6 +129,10 @@
     <string name="profile_incomplete_title">Profile Incomplete</string>
     <string name="profile_incomplete_message">You must fill your profile completely before you can
         request bunksheets!</string>
+    <string name="profile_incomplete_message_approveBunksheets">You must fill your profile
+        completely before you can approve bunksheets!</string>
+    <string name="profile_incomplete_message_approvedBunksheets">You must fill your profile
+        completely before you can view approved bunksheets!</string>
     <string name="go_to_profile">Go To Profile Screen</string>
 
     <string name="profile_validation_error">Validation error! Please fill out all fields correctly
