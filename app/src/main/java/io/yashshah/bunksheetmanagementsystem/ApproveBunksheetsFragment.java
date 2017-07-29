@@ -1,9 +1,12 @@
 package io.yashshah.bunksheetmanagementsystem;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -282,9 +285,38 @@ public class ApproveBunksheetsFragment extends Fragment {
         databaseReference.addListenerForSingleValueEvent(valueEventListener);
     }
 
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    private void showNotConnectedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.device_offline));
+        builder.setMessage(getString(R.string.approveBunksheets_offline_message));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setCancelable(false);
+
+        if (mAlertDialog != null) {
+            mAlertDialog.dismiss();
+        }
+
+        mAlertDialog = builder.create();
+        mAlertDialog.show();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
+        if (!isConnected()) {
+            showNotConnectedAlertDialog();
+        }
         getUser();
     }
 

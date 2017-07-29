@@ -1,9 +1,14 @@
 package io.yashshah.bunksheetmanagementsystem;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -254,6 +259,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private void saveProfileInfo() {
+        if (!isConnected()) {
+            showNotConnectedAlertDialog();
+        }
         String firstName = mFirstNameInputLayout.getEditText().getText().toString().trim();
         String lastName = mLastNameInputLayout.getEditText().getText().toString().trim();
         String phoneNumber = mPhoneNumberInputLayout.getEditText().getText().toString().trim();
@@ -330,6 +338,26 @@ public class ProfileFragment extends Fragment {
         return (isValidFirstName(firstName) && isValidLastName(lastName)
                 && isValidPhoneNumber(phoneNumber) && isValidRollNumber(rollNumber) && isValidYear()
                 && isValidDivision() && isValidClassTeacher() && isValidTeacherGuardian());
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    private void showNotConnectedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.device_offline));
+        builder.setMessage(getString(R.string.profile_offline_message));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
     }
 
     @Override

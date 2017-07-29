@@ -152,4 +152,23 @@
 
     <string name="shared_prefs_name">preferences</string>
     <string name="saved_privilegeLevel">privilegeLevel</string>
+
+    <string name="device_offline">Device offline</string>
+    <string name="approveBunksheets_offline_message">Your device is offline. You may not be able to
+        see the latest bunksheets till your device regains internet connectivity. However, any
+        bunksheet you approve will be saved locally and will be synced once your device regains
+        internet connectivity.</string>
+    <string name="approvedBunksheets_offline_message">Your device is offline. Your latest approved
+        bunksheets saved locally are displayed here. However, these approved bunksheets may not
+        have been synced online and will be synced once your device regains internet
+        connectivity.</string>
+    <string name="profile_offline_message">Your device is offline. However, your profile updates
+        will be saved locally and will be synced once your device regains internet
+        connectivity.</string>
+    <string name="bunksheets_offline_message">Your device is offline. You can still view all your
+        bunksheets here. However, the latest approval status might not have been synced and
+        will be synced once your device regains internet connectivity.</string>
+    <string name="request_bunksheet_offline_message">Your device is offline. However, your
+        bunksheet will be saved locally and will be synced once your device regains internet
+        connectivity.</string>
 </resources>

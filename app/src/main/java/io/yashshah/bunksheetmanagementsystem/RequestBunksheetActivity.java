@@ -1,9 +1,14 @@
 package io.yashshah.bunksheetmanagementsystem;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -219,6 +224,10 @@ public class RequestBunksheetActivity extends AppCompatActivity
 
     private void createBunksheet() {
         mProgressDialog.show();
+        if (!isConnected()) {
+            mProgressDialog.dismiss();
+            showNotConnectedAlertDialog();
+        }
         if (mCurrentUser != null) {
             mDatabaseReference = mFirebaseDatabase.getReference().child("Bunksheets");
 
@@ -338,6 +347,27 @@ public class RequestBunksheetActivity extends AppCompatActivity
         calendar.set(Calendar.MONTH, monthOfYear);
         calendar.set(Calendar.YEAR, year);
         return calendar.getTime().after(Calendar.getInstance().getTime());
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    private void showNotConnectedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.device_offline));
+        builder.setMessage(getString(R.string.request_bunksheet_offline_message));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
     }
 
     private void cleanupSingleValueEventListener() {
