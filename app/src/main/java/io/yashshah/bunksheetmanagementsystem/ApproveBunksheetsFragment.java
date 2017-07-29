@@ -36,23 +36,19 @@ import java.util.Map;
 
 public class ApproveBunksheetsFragment extends Fragment {
 
+    AlertDialog mAlertDialog;
     private View mRootView;
-
     private RecyclerView mRecyclerView;
     private FirebaseRecyclerAdapter mFirebaseRecyclerAdapter;
-
     private LinearLayoutManager mLinearLayoutManager;
     private DividerItemDecoration mDividerItemDecoration;
-
     private ItemTouchHelper mItemTouchHelper;
     private ItemTouchHelper.SimpleCallback mItemTouchHelperCallback;
     private Paint mPaint;
-
     private FirebaseAuth mFirebaseAuth;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private FirebaseUser mCurrentUser;
-
     private User mUser;
 
     public ApproveBunksheetsFragment() {
@@ -102,7 +98,9 @@ public class ApproveBunksheetsFragment extends Fragment {
                     }
                 });
         builder.setCancelable(false);
-        builder.show();
+
+        mAlertDialog = builder.create();
+        mAlertDialog.show();
     }
 
     private void setupFirebase() {
@@ -293,6 +291,9 @@ public class ApproveBunksheetsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        if (mAlertDialog != null) {
+            mAlertDialog.dismiss();
+        }
         if (mFirebaseRecyclerAdapter != null) {
             mFirebaseRecyclerAdapter.cleanup();
         }

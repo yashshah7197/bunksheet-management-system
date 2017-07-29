@@ -43,6 +43,8 @@ public class ApprovedBunksheetsFragment extends Fragment {
 
     private User mUser;
 
+    private AlertDialog mAlertDialog;
+
     public ApprovedBunksheetsFragment() {
         // Required empty public constructor
     }
@@ -90,7 +92,8 @@ public class ApprovedBunksheetsFragment extends Fragment {
                     }
                 });
         builder.setCancelable(false);
-        builder.show();
+
+        mAlertDialog = builder.create();
     }
 
     private void setupFirebase() {
@@ -182,6 +185,9 @@ public class ApprovedBunksheetsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        if (mAlertDialog != null) {
+            mAlertDialog.dismiss();
+        }
         if (mFirebaseRecyclerAdapter != null) {
             mFirebaseRecyclerAdapter.cleanup();
         }

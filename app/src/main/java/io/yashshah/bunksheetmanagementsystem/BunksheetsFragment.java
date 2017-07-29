@@ -42,6 +42,8 @@ public class BunksheetsFragment extends Fragment {
 
     private User mUser;
 
+    private AlertDialog mAlertDialog;
+
     public BunksheetsFragment() {
         // Required empty public constructor
     }
@@ -96,7 +98,8 @@ public class BunksheetsFragment extends Fragment {
                     }
                 });
         builder.setCancelable(false);
-        builder.show();
+        mAlertDialog = builder.create();
+        mAlertDialog.show();
     }
 
     private void setupFirebase() {
@@ -173,6 +176,9 @@ public class BunksheetsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        if (mAlertDialog != null) {
+            mAlertDialog.dismiss();
+        }
         if (mFirebaseRecyclerAdapter != null) {
             mFirebaseRecyclerAdapter.cleanup();
         }
