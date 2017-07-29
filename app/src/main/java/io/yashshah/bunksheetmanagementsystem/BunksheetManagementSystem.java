@@ -12,5 +12,6 @@ public class BunksheetManagementSystem extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        FirebaseDatabase.getInstance().getReference().keepSynced(true);
     }
 }
