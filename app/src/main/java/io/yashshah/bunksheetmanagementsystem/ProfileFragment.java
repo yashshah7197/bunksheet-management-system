@@ -285,13 +285,18 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getActivity(),
-                                    getString(R.string.profile_update_successful),
-                                    Toast.LENGTH_LONG)
-                                    .show();
+                            if (isAdded()) {
+                                Toast.makeText(getActivity(),
+                                        getString(R.string.profile_update_successful),
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                            }
                         } else {
-                            Toast.makeText(getActivity(), getString(R.string.profile_update_failed),
-                                    Toast.LENGTH_LONG).show();
+                            if (isAdded()) {
+                                Toast.makeText(getActivity(),
+                                        getString(R.string.profile_update_failed),
+                                        Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });

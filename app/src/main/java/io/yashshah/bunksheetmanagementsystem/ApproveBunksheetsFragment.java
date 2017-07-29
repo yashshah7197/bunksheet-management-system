@@ -268,9 +268,11 @@ public class ApproveBunksheetsFragment extends Fragment {
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Toast.makeText(getActivity(),
-                                                getString(R.string.approved_successfully),
-                                                Toast.LENGTH_LONG).show();
+                                        if (isAdded()) {
+                                            Toast.makeText(getActivity(),
+                                                    getString(R.string.approved_successfully),
+                                                    Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 });
                     }
