@@ -197,34 +197,40 @@ public class MainActivity extends AppCompatActivity implements DrawerItemSelecto
         switch (item.getItemId()) {
             case R.id.navigation_bunksheets:
                 fragment = BunksheetsFragment.newInstance();
+                mNavigationView.setCheckedItem(R.id.navigation_bunksheets);
                 setTitle(item.getTitle());
                 mDrawerLayout.closeDrawers();
                 break;
 
             case R.id.navigation_approve_bunksheets:
                 fragment = ApproveBunksheetsFragment.newInstance();
+                mNavigationView.setCheckedItem(R.id.navigation_approve_bunksheets);
                 setTitle(item.getTitle());
                 mDrawerLayout.closeDrawers();
                 break;
 
             case R.id.navigation_approved_bunksheets:
                 fragment = ApprovedBunksheetsFragment.newInstance();
+                mNavigationView.setCheckedItem(R.id.navigation_approved_bunksheets);
                 setTitle(item.getTitle());
                 mDrawerLayout.closeDrawers();
                 break;
 
             case R.id.navigation_profile:
                 fragment = ProfileFragment.newInstance();
+                mNavigationView.setCheckedItem(R.id.navigation_profile);
                 setTitle(item.getTitle());
                 mDrawerLayout.closeDrawers();
                 break;
 
             case R.id.navigation_logout:
+                mNavigationView.setCheckedItem(R.id.navigation_logout);
                 mFirebaseAuth.signOut();
                 break;
 
             case R.id.navigation_feedback:
                 fragment = FeedbackFragment.newInstance();
+                mNavigationView.setCheckedItem(R.id.navigation_feedback);
                 setTitle(item.getTitle());
                 mDrawerLayout.closeDrawers();
                 break;
