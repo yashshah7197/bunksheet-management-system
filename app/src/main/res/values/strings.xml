@@ -149,4 +149,7 @@
     <string name="submitting_bunksheet_title">Submitting Bunksheet Request</string>
     <string name="submitting_bunksheet_message">Please wait while we are submitting your bunksheet
         request…</string>
+
+    <string name="shared_prefs_name">preferences</string>
+    <string name="saved_privilegeLevel">privilegeLevel</string>
 </resources>

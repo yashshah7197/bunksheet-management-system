@@ -1,8 +1,10 @@
 package io.yashshah.bunksheetmanagementsystem;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -54,6 +56,8 @@ public class RegisterActivity extends AppCompatActivity {
     private ValueEventListener mValueEventListener;
     private FirebaseUser mCurrentUser;
 
+    private Intent mAfterLoginIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,9 @@ public class RegisterActivity extends AppCompatActivity {
         setupViews();
         setupTextWatchers();
         setupFirebase();
+
+        mAfterLoginIntent = new Intent(RegisterActivity.this, MainActivity.class);
+        mAfterLoginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 
     private void setupViews() {
@@ -307,9 +314,7 @@ public class RegisterActivity extends AppCompatActivity {
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                startActivity(mAfterLoginIntent);
             }
         });
         builder.setCancelable(false);
@@ -355,12 +360,42 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            mProgressDialog.dismiss();
-                            showRegistrationSuccessfulDialog();
+                            setSharedPrefsPrivilegeLevel();
                         }
                     }
                 });
     }
+
+    private void setSharedPrefsPrivilegeLevel() {
+        DatabaseReference privilegeDatabaseReference =
+                mFirebaseDatabase.getReference()
+                        .child("Users")
+                        .child(mCurrentUser.getUid())
+                        .child("privilegeLevel");
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int privilegeLevel = dataSnapshot.getValue(Integer.class);
+                SharedPreferences preferences =
+                        getSharedPreferences(getString(R.string.shared_prefs_name),
+                                Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt(getString(R.string.saved_privilegeLevel), privilegeLevel);
+                editor.apply();
+                mProgressDialog.dismiss();
+                showRegistrationSuccessfulDialog();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        privilegeDatabaseReference.addListenerForSingleValueEvent(valueEventListener);
+    }
+
 
     private void registerUser() {
         mFirstName = mFirstNameInputLayout.getEditText().getText().toString().trim();

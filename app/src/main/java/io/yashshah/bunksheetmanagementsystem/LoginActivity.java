@@ -1,8 +1,10 @@
 package io.yashshah.bunksheetmanagementsystem;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -74,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private CallbackManager mCallbackManager;
 
-    private Intent afterLoginIntent;
+    private Intent mAfterLoginIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +88,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setupGoogleSignIn();
         registerFacebookCallbackManager();
 
-        afterLoginIntent = new Intent(LoginActivity.this, MainActivity.class);
-        afterLoginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mAfterLoginIntent = new Intent(LoginActivity.this, MainActivity.class);
+        mAfterLoginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 
     private void setupViews() {
@@ -203,7 +205,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
                             if (currentUser != null) {
                                 mProgressDialog.dismiss();
-                                startActivity(afterLoginIntent);
+                                startActivity(mAfterLoginIntent);
                             }
                         } else {
                             mProgressDialog.dismiss();
@@ -265,8 +267,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (!dataSnapshot.hasChild(mCurrentUser.getUid())) {
                         createUserInDatabase();
                     } else {
-                        mProgressDialog.dismiss();
-                        startActivity(afterLoginIntent);
+                        setSharedPrefsPrivilegeLevel();
                     }
                 }
 
@@ -294,13 +295,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            mProgressDialog.dismiss();
-                            startActivity(afterLoginIntent);
+                            setSharedPrefsPrivilegeLevel();
                         } else {
                             mProgressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, getString(R.string.unknown_error),
                                     Toast.LENGTH_LONG).show();
-                            startActivity(afterLoginIntent);
+                            startActivity(mAfterLoginIntent);
                         }
                     }
                 });
@@ -317,6 +317,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
         builder.setCancelable(false);
         builder.show();
+    }
+
+    private void setSharedPrefsPrivilegeLevel() {
+        DatabaseReference privilegeDatabaseReference =
+                mFirebaseDatabase.getReference()
+                        .child("Users")
+                        .child(mCurrentUser.getUid())
+                        .child("privilegeLevel");
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int privilegeLevel = dataSnapshot.getValue(Integer.class);
+                SharedPreferences preferences =
+                        getSharedPreferences(getString(R.string.shared_prefs_name),
+                                Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt(getString(R.string.saved_privilegeLevel), privilegeLevel);
+                editor.apply();
+                mProgressDialog.dismiss();
+                startActivity(mAfterLoginIntent);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        privilegeDatabaseReference.addListenerForSingleValueEvent(valueEventListener);
     }
 
     @Override
