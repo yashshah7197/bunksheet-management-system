@@ -1,6 +1,8 @@
 package io.yashshah.bunksheetmanagementsystem;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements DrawerItemSelecto
                     FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                     if (currentUser != null) {
                         mCurrentUser = currentUser;
+                        goToStartupFragment();
                         loadUserInfo();
                     } else {
                         startActivity(mLoginIntent);
@@ -169,6 +172,22 @@ public class MainActivity extends AppCompatActivity implements DrawerItemSelecto
                     .getMenu()
                     .findItem(R.id.navigation_approve_bunksheets)
                     .setVisible(false);
+        }
+    }
+
+    private int getSharedPrefsPrivilegeLevel() {
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(getString(R.string.saved_privilegeLevel), -1);
+    }
+
+    private void goToStartupFragment() {
+        int privilegeLevel = getSharedPrefsPrivilegeLevel();
+        if (privilegeLevel <= User.PRIVILEGE_STUDENT) {
+            selectNavigationItem(mNavigationView.getMenu().findItem(R.id.navigation_bunksheets));
+        } else {
+            selectNavigationItem(mNavigationView.getMenu()
+                    .findItem(R.id.navigation_approve_bunksheets));
         }
     }
 
