@@ -242,7 +242,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        sendVerificationEmail();
+                                        setSharedPrefsPrivilegeLevel();
                                     }
                                 });
                     }
@@ -356,19 +356,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    private void sendVerificationEmail() {
-        mCurrentUser.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            setSharedPrefsPrivilegeLevel();
-                        }
-                    }
-                });
-    }
-
+    
     private void setSharedPrefsPrivilegeLevel() {
         DatabaseReference privilegeDatabaseReference =
                 mFirebaseDatabase.getReference()
