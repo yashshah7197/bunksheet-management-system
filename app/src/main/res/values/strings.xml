@@ -190,4 +190,5 @@
         saved locally and will be synced once your device regains internet connectivity.
         Thank you for your valuable feedback!</string>
     <string name="feedback_submit_failed">Failed to send feedback! Please try again! :(</string>
+    <string name="rate_us">Rate Us</string>
 </resources>

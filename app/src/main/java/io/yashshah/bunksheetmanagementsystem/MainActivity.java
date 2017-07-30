@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -194,6 +195,12 @@ public class MainActivity extends AppCompatActivity implements DrawerActionsInte
         }
     }
 
+    private void goToGooglePlayPage() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=io.yashshah.bunksheetmanagementsystem"));
+        startActivity(intent);
+    }
+
     private void selectNavigationItem(MenuItem item) {
         Fragment fragment = null;
 
@@ -236,6 +243,10 @@ public class MainActivity extends AppCompatActivity implements DrawerActionsInte
                 mNavigationView.setCheckedItem(R.id.navigation_feedback);
                 setTitle(item.getTitle());
                 mDrawerLayout.closeDrawers();
+                break;
+
+            case R.id.navigation_rate_us:
+                goToGooglePlayPage();
                 break;
         }
 

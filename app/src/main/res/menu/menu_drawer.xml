@@ -38,5 +38,10 @@
             android:id="@+id/navigation_feedback"
             android:icon="@drawable/ic_feedback_black_24dp"
             android:title="@string/feedback"/>
+
+        <item
+            android:id="@+id/navigation_rate_us"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="@string/rate_us"/>
     </group>
 </menu>
