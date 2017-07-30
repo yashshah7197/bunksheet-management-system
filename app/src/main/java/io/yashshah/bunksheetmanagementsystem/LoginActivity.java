@@ -31,6 +31,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -71,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private DatabaseReference mUsersDatabaseReference;
     private ValueEventListener mValueEventListener;
     private FirebaseUser mCurrentUser;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -121,6 +123,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setupFirebase() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUsersDatabaseReference = mFirebaseDatabase.getReference().child("Users");

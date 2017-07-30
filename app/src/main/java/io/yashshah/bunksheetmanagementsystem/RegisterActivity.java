@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mUsersDatabaseReference;
     private ValueEventListener mValueEventListener;
     private FirebaseUser mCurrentUser;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private Intent mAfterLoginIntent;
 
@@ -220,6 +222,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void setupFirebase() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUsersDatabaseReference = mFirebaseDatabase.getReference().child("Users");

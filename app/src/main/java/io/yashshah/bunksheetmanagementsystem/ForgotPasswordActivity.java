@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
@@ -26,11 +27,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
 
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mEmailInputLayout =
                 (TextInputLayout) findViewById(R.id.textInputLayout_forgot_password_email);

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -69,6 +70,7 @@ public class RequestBunksheetActivity extends AppCompatActivity
     private DatabaseReference mDatabaseReference;
     private FirebaseUser mCurrentUser;
     private ValueEventListener mSingleValueEventListener;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private int mUserBunksheetCount;
 
@@ -181,6 +183,7 @@ public class RequestBunksheetActivity extends AppCompatActivity
     }
 
     private void setupFirebase() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference();
