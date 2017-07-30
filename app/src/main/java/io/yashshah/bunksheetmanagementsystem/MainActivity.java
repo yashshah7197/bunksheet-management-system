@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -26,11 +27,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-interface DrawerItemSelectorInterface {
+interface DrawerActionsInterface {
     void selectDrawerItem(int itemId);
+
+    void openDrawer();
 }
 
-public class MainActivity extends AppCompatActivity implements DrawerItemSelectorInterface {
+public class MainActivity extends AppCompatActivity implements DrawerActionsInterface {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -284,5 +287,10 @@ public class MainActivity extends AppCompatActivity implements DrawerItemSelecto
     @Override
     public void selectDrawerItem(int itemId) {
         selectNavigationItem(mNavigationView.getMenu().findItem(itemId));
+    }
+
+    @Override
+    public void openDrawer() {
+        mDrawerLayout.openDrawer(Gravity.START, true);
     }
 }

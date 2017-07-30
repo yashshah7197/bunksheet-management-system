@@ -137,7 +137,7 @@ public class FeedbackFragment extends Fragment {
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                ((MainActivity) getActivity()).openDrawer();
             }
         });
         builder.setCancelable(false);
