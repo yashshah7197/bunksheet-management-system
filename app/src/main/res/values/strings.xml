@@ -180,4 +180,10 @@
         Your feedback is totally
         anonymous :)</string>
     <string name="send_feedback">Send Feedback</string>
+    <string name="feedback_sent_successfully">Your feedback has been submitted successfully!
+        Thank you for your valuable feedback! Please also consider rating us on Google Play by
+        clicking on the \'Rate Us\' item in the navigation drawer! Thank you! :D</string>
+    <string name="thank_you">Thank you!</string>
+    <string name="submitting_feedback_title">Submitting Feedback</string>
+    <string name="submitting_feedback_message">Please wait while we submit your feedback…</string>
 </resources>
