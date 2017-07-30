@@ -35,4 +35,12 @@
         <item>Sponsorship</item>
         <item>Technical</item>
     </string-array>
+
+    <string-array name="feedback_array">
+        <item>5 - Excellent</item>
+        <item>4 - Good</item>
+        <item>3 - Average</item>
+        <item>2 - Below Average</item>
+        <item>1 - Unusable</item>
+    </string-array>
 </resources>

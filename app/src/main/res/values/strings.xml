@@ -171,4 +171,13 @@
     <string name="request_bunksheet_offline_message">Your device is offline. However, your
         bunksheet will be saved locally and will be synced once your device regains internet
         connectivity.</string>
+
+    <string name="feedback_userExperience">On a scale of 1 to 5, how would you rate the user
+        experience and ease of use of this app?</string>
+    <string name="feedback_functionality">On a scale of 1 to 5, how would you rate the features and
+        functionality of this app?</string>
+    <string name="feedback_other_comments">Any other comments? How can we make this app better?
+        Your feedback is totally
+        anonymous :)</string>
+    <string name="send_feedback">Send Feedback</string>
 </resources>
