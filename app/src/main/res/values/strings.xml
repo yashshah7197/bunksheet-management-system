@@ -186,4 +186,8 @@
     <string name="thank_you">Thank you!</string>
     <string name="submitting_feedback_title">Submitting Feedback</string>
     <string name="submitting_feedback_message">Please wait while we submit your feedback…</string>
+    <string name="feedback_offline_message">Your device offline. However, your feedback will be
+        saved locally and will be synced once your device regains internet connectivity.
+        Thank you for your valuable feedback!</string>
+    <string name="feedback_submit_failed">Failed to send feedback! Please try again! :(</string>
 </resources>

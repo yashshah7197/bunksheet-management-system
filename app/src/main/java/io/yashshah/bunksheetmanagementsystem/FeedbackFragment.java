@@ -2,7 +2,10 @@ package io.yashshah.bunksheetmanagementsystem;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -94,6 +98,10 @@ public class FeedbackFragment extends Fragment {
 
     private void sendFeedback() {
         mProgressDialog.show();
+        if (!isConnected()) {
+            mProgressDialog.dismiss();
+            showNotConnectedAlertDialog();
+        }
         String userExperience = mUserExperienceRatingSpinner.getSelectedItem().toString();
         String functionality = mFunctionalityRatingSpinner.getSelectedItem().toString();
         String otherComments = mOtherCommentsInputLayout.getEditText().getText().toString().trim();
@@ -105,8 +113,18 @@ public class FeedbackFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            mProgressDialog.dismiss();
-                            showThankYouAlertDialog();
+                            if (isAdded()) {
+                                mProgressDialog.dismiss();
+                                showThankYouAlertDialog();
+                            }
+                        } else {
+                            if (isAdded()) {
+                                mProgressDialog.dismiss();
+                                Toast.makeText(getActivity(),
+                                        getString(R.string.feedback_submit_failed),
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                            }
                         }
                     }
                 });
@@ -116,6 +134,27 @@ public class FeedbackFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.thank_you));
         builder.setMessage(getString(R.string.feedback_sent_successfully));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    private void showNotConnectedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.device_offline));
+        builder.setMessage(getString(R.string.feedback_offline_message));
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
