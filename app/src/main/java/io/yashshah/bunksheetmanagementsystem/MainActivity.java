@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements DrawerActionsInte
     private void loadUserInfo() {
         mUserDatabaseReference =
                 mDatabase.getReference().child("Users").child(mCurrentUser.getUid());
-        mUserDatabaseReference.keepSynced(true);
 
         if (mUserValueEventListener == null) {
             mUserValueEventListener = new ValueEventListener() {
@@ -135,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements DrawerActionsInte
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
                     if (user != null) {
+                        setSharedPrefsPrivilegeLevel(user.getPrivilegeLevel());
                         updateNavigationDrawer(user.getName(), user.getYear(), user.getDivision(),
                                 user.getRollNumber(), user.getPrivilegeLevel());
                     }
@@ -188,6 +188,14 @@ public class MainActivity extends AppCompatActivity implements DrawerActionsInte
         SharedPreferences sharedPreferences =
                 getSharedPreferences(getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
         return sharedPreferences.getInt(getString(R.string.saved_privilegeLevel), -1);
+    }
+
+    private void setSharedPrefsPrivilegeLevel(int privilegeLevel) {
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(getString(R.string.saved_privilegeLevel), privilegeLevel);
+        editor.apply();
     }
 
     private void goToStartupFragment() {
