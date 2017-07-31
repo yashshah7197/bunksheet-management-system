@@ -26,14 +26,10 @@
 -keepattributes Signature
 -keepattributes *Annotation*
 
--keepclassmembers class io.yashshah.bunksheetmanagementsystem.Bunksheet {
+-keepclassmembers class io.yashshah.bunksheetmanagementsystem.data.** {
   *;
 }
 
--keepclassmembers class io.yashshah.bunksheetmanagementsystem.User {
-  *;
-}
-
--keepclassmembers class io.yashshah.bunksheetmanagementsystem.Feedback {
+-keepclassmembers class io.yashshah.bunksheetmanagementsystem.viewholders.** {
   *;
 }
