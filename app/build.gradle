@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-crash'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -61,6 +62,7 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:11.0.4'
     compile 'com.google.firebase:firebase-auth:11.0.4'
     compile 'com.google.firebase:firebase-database:11.0.4'
+    compile 'com.google.firebase:firebase-perf:11.0.4'
     compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.android.support:support-v4:26.0.0'
