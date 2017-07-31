@@ -248,12 +248,12 @@ public class ProfileFragment extends Fragment {
         mDivisionSpinner.setSelection(arrayAdapter.getPosition(user.getDivision()));
 
         arrayAdapter =
-                ArrayAdapter.createFromResource(getActivity(), R.array.classTeachers_array,
+                ArrayAdapter.createFromResource(getActivity(), R.array.teachers_array,
                         R.layout.support_simple_spinner_dropdown_item);
         mClassTeacherSpinner.setSelection(arrayAdapter.getPosition(user.getClassTeacher()));
 
         arrayAdapter =
-                ArrayAdapter.createFromResource(getActivity(), R.array.teacherGuardians_array,
+                ArrayAdapter.createFromResource(getActivity(), R.array.teachers_array,
                         R.layout.support_simple_spinner_dropdown_item);
         mTeacherGuardianSpinner.setSelection(arrayAdapter.getPosition(user.getTeacherGuardian()));
     }

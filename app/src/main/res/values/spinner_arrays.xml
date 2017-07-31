@@ -15,18 +15,79 @@
         <item>5</item>
     </string-array>
 
-    <string-array name="classTeachers_array">
+    <string-array name="teachers_array">
         <item>@string/na</item>
-        <item>Prof. S. S. Barde</item>
-        <item>Mrs. Neha Godbole</item>
-        <item>Prof. Raghib Nazri</item>
-    </string-array>
-
-    <string-array name="teacherGuardians_array">
-        <item>@string/na</item>
-        <item>Prof. G. S. Pise</item>
-        <item>Prof. Roma Kudale</item>
-        <item>Prof. Prasad Teli</item>
+        <item>Dr. P. N. Mahalle</item>
+        <item>Dr. K. N. Honwadkar</item>
+        <item>Dr. S. K. Pathan</item>
+        <item>Prof. M. R. Patil</item>
+        <item>Prof. S. P. Pingat</item>
+        <item>Prof. S. P. Kosbatwar</item>
+        <item>Prof. D. H. Kulkarni</item>
+        <item>Prof. P. B. Mali</item>
+        <item>Prof. N. A. Mhetre</item>
+        <item>Prof. R. A. Satao</item>
+        <item>Prof. V. S. Deshmukh</item>
+        <item>Prof. V. V. Jog</item>
+        <item>Mr. S. A. Shinde</item>
+        <item>Ms. U. A. Jogalekar</item>
+        <item>Mr. V. V. Kimbahune</item>
+        <item>Ms. S. V. Dabhade</item>
+        <item>Ms. J. N. Nandimath</item>
+        <item>Ms. S. Y. Kulkarni</item>
+        <item>Ms. A. A Deshmukh</item>
+        <item>Ms. R. A. Kudale</item>
+        <item>Ms. G. R. Shinde</item>
+        <item>Mr. V. R. Ghule</item>
+        <item>Ms. A. N. Ainapure</item>
+        <item>Ms. T. H. Gurav</item>
+        <item>Ms. P. S. Desai</item>
+        <item>Ms. P. N. Railkar</item>
+        <item>Mr. P. S. Raskar</item>
+        <item>Mr. A. M. Wade</item>
+        <item>Mr. S. S. Barde</item>
+        <item>Ms. S. A. Kulkarni</item>
+        <item>Ms. P. D. Takalkar</item>
+        <item>Ms. S. R. Pavshere</item>
+        <item>Ms. P. K. Ligade</item>
+        <item>Ms. N. K. Godbole</item>
+        <item>Ms. S. M. Patil</item>
+        <item>Mr. S. V. Dhande</item>
+        <item>Mr. P. A. Sonewar</item>
+        <item>Mr. V. V. Dakhode</item>
+        <item>Mr. Raghib Nasri</item>
+        <item>Ms. A. A. Bhawarthi</item>
+        <item>Ms. M. M. Dharanguttikar</item>
+        <item>Ms. V. A. Gokhale</item>
+        <item>Mr. V. S. Phad</item>
+        <item>Mr. S. S. Bhong</item>
+        <item>Ms. K. M. Jadhav</item>
+        <item>Mr. P. B. Chaudhari</item>
+        <item>Mr. P. R. Chandre</item>
+        <item>Ms. A. M. Pawar</item>
+        <item>Mr. M. A. Ansari</item>
+        <item>Ms. A. B. Balte</item>
+        <item>Ms. A. B. Kalamkar</item>
+        <item>Mr. S. A. Kahate</item>
+        <item>Mr. B. D. Thorat</item>
+        <item>Mr. P. S. Teli</item>
+        <item>Mr. P. P. Patil</item>
+        <item>Mr. D. T. Bodake</item>
+        <item>Mrs. P. N. Adhav</item>
+        <item>Mr. B. N. Vyavahare</item>
+        <item>Mr. G. S. Pise</item>
+        <item>Mr. R. M. Indoriya</item>
+        <item>Mr. S. P. Patil</item>
+        <item>Mr. S. N. Patil</item>
+        <item>Mr. Lomesh Ahire</item>
+        <item>Mrs. P. R. Pandhre</item>
+        <item>Mrs. M. K. Shinde</item>
+        <item>Mr. P. G. Holgundikar</item>
+        <item>Mr. S. A. Panchal</item>
+        <item>Mr. B. B. Linge</item>
+        <item>Mr. Salim Shaikh</item>
+        <item>Ms. K. D. Ingole</item>
+        <item>Mrs. D. D. Ingole</item>
     </string-array>
 
     <string-array name="bunksheetReasons_array">
