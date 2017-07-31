@@ -41,7 +41,7 @@
     <string name="registration_successful_title">Registration successful</string>
     <string name="registration_failed_title">Registration failed</string>
     <string name="registration_successful_message">Your account has been successfully
-        created. Please check your email for a verification email!</string>
+        created! You will be automatically logged in now.</string>
     <string name="registration_failed_message">There was a problem creating your account.
         Please try again!</string>
     <string name="user_registration">User Registration</string>
