@@ -33,6 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Pattern;
 
+import io.yashshah.bunksheetmanagementsystem.data.User;
+
 public class ProfileFragment extends Fragment {
 
     private View mRootView;

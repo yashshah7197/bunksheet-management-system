@@ -33,6 +33,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import io.yashshah.bunksheetmanagementsystem.data.User;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputLayout mFirstNameInputLayout;

@@ -46,6 +46,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
+import io.yashshah.bunksheetmanagementsystem.data.User;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
         GoogleApiClient.OnConnectionFailedListener {
 

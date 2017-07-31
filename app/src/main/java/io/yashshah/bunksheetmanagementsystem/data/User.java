@@ -1,4 +1,4 @@
-package io.yashshah.bunksheetmanagementsystem;
+package io.yashshah.bunksheetmanagementsystem.data;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package io.yashshah.bunksheetmanagementsystem;
+package io.yashshah.bunksheetmanagementsystem.data;
 
 /**
  * Created by yashshah on 30/07/17.
