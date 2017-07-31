@@ -23,3 +23,17 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keepattributes Signature
+-keepattributes *Annotation*
+
+-keepclassmembers class io.yashshah.bunksheetmanagementsystem.Bunksheet {
+  *;
+}
+
+-keepclassmembers class io.yashshah.bunksheetmanagementsystem.User {
+  *;
+}
+
+-keepclassmembers class io.yashshah.bunksheetmanagementsystem.Feedback {
+  *;
+}
