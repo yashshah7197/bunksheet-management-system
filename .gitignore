@@ -196,5 +196,6 @@ Temporary Items
 
 bunksheets-6d6a6-firebase-crashreporting-gma6c-dc760b378c.json
 keystore.properties
+distribution-assets/
 
 # End of https://www.gitignore.io/api/macos,android,androidstudio
