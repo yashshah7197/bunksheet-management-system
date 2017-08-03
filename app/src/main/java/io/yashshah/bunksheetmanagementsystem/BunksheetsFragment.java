@@ -4,18 +4,23 @@ package io.yashshah.bunksheetmanagementsystem;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,6 +47,9 @@ public class BunksheetsFragment extends Fragment {
     private LinearLayoutManager mLinearLayoutManager;
     private DividerItemDecoration mDividerItemDecoration;
 
+    private ItemTouchHelper mItemTouchHelper;
+    private ItemTouchHelper.SimpleCallback mItemTouchHelperCallback;
+
     private FirebaseAuth mFirebaseAuth;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -50,6 +58,8 @@ public class BunksheetsFragment extends Fragment {
     private User mUser;
 
     private AlertDialog mAlertDialog;
+
+    private Paint mPaint;
 
     public BunksheetsFragment() {
         // Required empty public constructor
@@ -79,6 +89,7 @@ public class BunksheetsFragment extends Fragment {
 
         setupFirebase();
         setupRecyclerView();
+        setupRecyclerViewSwipeActions();
 
         return mRootView;
     }
@@ -128,6 +139,54 @@ public class BunksheetsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
+
+    }
+
+    private void setupRecyclerViewSwipeActions() {
+        mPaint = new Paint();
+
+        if (mItemTouchHelperCallback == null) {
+            mItemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP,
+                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(RecyclerView recyclerView,
+                                      RecyclerView.ViewHolder viewHolder,
+                                      RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    int position = viewHolder.getAdapterPosition();
+                    String bunksheetKey = mFirebaseRecyclerAdapter.getRef(position).getKey();
+                    mFirebaseRecyclerAdapter.notifyItemRemoved(position);
+                    showConfirmDeleteAlertDialog(bunksheetKey, position);
+                }
+
+                @Override
+                public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                        View itemView = viewHolder.itemView;
+
+                        if (dX > 0) {
+                            mPaint.setColor(ContextCompat.getColor(getActivity(), R.color.colorRed));
+                            c.drawRect((float) itemView.getLeft(), (float)
+                                            itemView.getTop(), dX,
+                                    (float) itemView.getBottom(), mPaint);
+                        } else {
+                            mPaint.setColor(ContextCompat.getColor(getActivity(),
+                                    R.color.colorRed));
+                            c.drawRect((float) itemView.getRight() + dX,
+                                    (float) itemView.getTop(), (float) itemView.getRight(),
+                                    (float) itemView.getBottom(), mPaint);
+                        }
+                    }
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                }
+            };
+            mItemTouchHelper = new ItemTouchHelper(mItemTouchHelperCallback);
+            mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        }
     }
 
     private void attachRecyclerViewAdapter() {
@@ -172,6 +231,44 @@ public class BunksheetsFragment extends Fragment {
         };
 
         userDatabaseReference.addValueEventListener(singleValueEventListener);
+    }
+
+    private void deleteBunksheetFromDatabase(String bunksheetKey) {
+        DatabaseReference databaseReference =
+                mFirebaseDatabase.getReference().child("Bunksheets").child(bunksheetKey);
+        databaseReference.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError,
+                                   DatabaseReference databaseReference) {
+                if (isAdded()) {
+                    Toast.makeText(getActivity(),
+                            getString(R.string.bunksheet_delete_success),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+            }
+        });
+    }
+
+    private void showConfirmDeleteAlertDialog(final String bunksheetKey, final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.confirm_delete_title));
+        builder.setMessage(getString(R.string.confirm_delete_message));
+        builder.setPositiveButton(getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteBunksheetFromDatabase(bunksheetKey);
+                mFirebaseRecyclerAdapter.notifyItemRemoved(position);
+                mFirebaseRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNeutralButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
     }
 
     private boolean isConnected() {
