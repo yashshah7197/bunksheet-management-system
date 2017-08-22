@@ -29,7 +29,7 @@ import io.yashshah.bunksheetmanagementsystem.viewholders.BunksheetViewHolder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ApprovedBunksheetsFragment extends Fragment {
+public class DeclinedBunksheetsFragment extends Fragment {
 
   private View mRootView;
 
@@ -48,15 +48,13 @@ public class ApprovedBunksheetsFragment extends Fragment {
 
   private AlertDialog mAlertDialog;
 
-  public ApprovedBunksheetsFragment() {
+  public DeclinedBunksheetsFragment() {
     // Required empty public constructor
   }
 
-  public static ApprovedBunksheetsFragment newInstance() {
-
+  public static DeclinedBunksheetsFragment newInstance() {
     Bundle args = new Bundle();
-
-    ApprovedBunksheetsFragment fragment = new ApprovedBunksheetsFragment();
+    DeclinedBunksheetsFragment fragment = new DeclinedBunksheetsFragment();
     fragment.setArguments(args);
     return fragment;
   }
@@ -64,7 +62,7 @@ public class ApprovedBunksheetsFragment extends Fragment {
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    mRootView = inflater.inflate(R.layout.fragment_approved_bunksheets, container, false);
+    mRootView = inflater.inflate(R.layout.fragment_declined_bunksheets, container, false);
 
     setupFirebase();
     setupRecyclerView();
@@ -111,7 +109,7 @@ public class ApprovedBunksheetsFragment extends Fragment {
     mDividerItemDecoration =
         new DividerItemDecoration(getActivity(), mLinearLayoutManager.getOrientation());
 
-    mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView_approved_bunksheets);
+    mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView_declined_bunksheets);
     mRecyclerView.setHasFixedSize(true);
     mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
@@ -119,18 +117,7 @@ public class ApprovedBunksheetsFragment extends Fragment {
   }
 
   private void attachRecyclerViewAdapter() {
-    Query query = null;
-    if (mUser.getPrivilegeLevel() == User.PRIVILEGE_HEAD) {
-      query = mDatabaseReference.orderByChild("approvalLevel")
-          .startAt(User.PRIVILEGE_HEAD)
-          .endAt(User.PRIVILEGE_HOD);
-    } else if (mUser.getPrivilegeLevel() == User.PRIVILEGE_TEACHER) {
-      query = mDatabaseReference.orderByChild("approvalLevel")
-          .startAt(User.PRIVILEGE_TEACHER)
-          .endAt(User.PRIVILEGE_HOD);
-    } else if (mUser.getPrivilegeLevel() == User.PRIVILEGE_HOD) {
-      query = mDatabaseReference.orderByChild("approvalLevel").equalTo(User.PRIVILEGE_HOD);
-    }
+    Query query = mDatabaseReference.orderByChild("approvalLevel").equalTo(-1);
 
     if (mFirebaseRecyclerAdapter == null) {
       mFirebaseRecyclerAdapter =

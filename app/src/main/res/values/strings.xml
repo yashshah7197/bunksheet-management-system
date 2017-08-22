@@ -1,201 +1,206 @@
 <resources>
-    <!-- App Name -->
-    <string name="app_name">Bunksheet Management System</string>
+  <!-- App Name -->
+  <string name="app_name">Bunksheet Management System</string>
 
-    <!-- LoginActivity -->
-    <string name="login">Login</string>
-    <string name="log_in_facebook">Login with Facebook</string>
-    <string name="sign_in_google">Sign in with Google</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="forgot_password">Forgot Password</string>
-    <string name="sign_up">Don\'t have an account? Sign up</string>
+  <!-- LoginActivity -->
+  <string name="login">Login</string>
+  <string name="log_in_facebook">Login with Facebook</string>
+  <string name="sign_in_google">Sign in with Google</string>
+  <string name="email">Email</string>
+  <string name="password">Password</string>
+  <string name="forgot_password">Forgot Password</string>
+  <string name="sign_up">Don\'t have an account? Sign up</string>
 
-    <!-- MainActivity Navigation Drawer -->
-    <string name="open_drawer">Open Drawer</string>
-    <string name="close_drawer">Close Drawer</string>
-    <string name="bunksheets">Bunksheets</string>
-    <string name="approve_bunksheets">Approve Bunksheets</string>
-    <string name="profile">Profile</string>
-    <string name="logout">Logout</string>
-    <string name="feedback">Feedback</string>
+  <!-- MainActivity Navigation Drawer -->
+  <string name="open_drawer">Open Drawer</string>
+  <string name="close_drawer">Close Drawer</string>
+  <string name="bunksheets">Bunksheets</string>
+  <string name="approve_bunksheets">Approve Bunksheets</string>
+  <string name="profile">Profile</string>
+  <string name="logout">Logout</string>
+  <string name="feedback">Feedback</string>
 
-    <!-- RegisterActivity -->
-    <string name="register">Register</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="confirm_password">Confirm Password</string>
+  <!-- RegisterActivity -->
+  <string name="register">Register</string>
+  <string name="first_name">First Name</string>
+  <string name="last_name">Last Name</string>
+  <string name="confirm_password">Confirm Password</string>
 
-    <!-- Validation Messages -->
-    <string name="invalid_first_name">Please enter a valid first name!</string>
-    <string name="invalid_last_name">Please enter a valid last name!</string>
-    <string name="invalid_email">Please enter a valid email address!</string>
-    <string name="invalid_password">Invalid password! Passwords must be at least 6
+  <!-- Validation Messages -->
+  <string name="invalid_first_name">Please enter a valid first name!</string>
+  <string name="invalid_last_name">Please enter a valid last name!</string>
+  <string name="invalid_email">Please enter a valid email address!</string>
+  <string name="invalid_password">Invalid password! Passwords must be at least 6
         characters long and must not contain blank spaces!</string>
-    <string name="passwords_not_matching">Passwords do not match!</string>
-    <string name="validation_error_title">Validation Error</string>
-    <string name="validation_error_message">Please check all the fields and try again!</string>
-    <string name="ok">OK</string>
+  <string name="passwords_not_matching">Passwords do not match!</string>
+  <string name="validation_error_title">Validation Error</string>
+  <string name="validation_error_message">Please check all the fields and try again!</string>
+  <string name="ok">OK</string>
 
-    <!-- Registration Messages -->
-    <string name="registration_successful_title">Registration successful</string>
-    <string name="registration_failed_title">Registration failed</string>
-    <string name="registration_successful_message">Your account has been successfully
+  <!-- Registration Messages -->
+  <string name="registration_successful_title">Registration successful</string>
+  <string name="registration_failed_title">Registration failed</string>
+  <string name="registration_successful_message">Your account has been successfully
         created! You will be automatically logged in now.</string>
-    <string name="registration_failed_message">There was a problem creating your account.
+  <string name="registration_failed_message">There was a problem creating your account.
         Please try again!</string>
-    <string name="user_registration">User Registration</string>
-    <string name="creating_user">Creating new user…</string>
-    <string name="unknown_error">An unknown error has occurred. Please contact the developer for
+  <string name="user_registration">User Registration</string>
+  <string name="creating_user">Creating new user…</string>
+  <string name="unknown_error">An unknown error has occurred. Please contact the developer for
         support!</string>
 
-    <string name="logging_in_title">Logging In</string>
-    <string name="logging_in_message">Please wait while we log you in…</string>
-    <string name="login_failed_title">Login Failed</string>
-    <string name="login_failed_message">There was a problem logging you in. Please check your
+  <string name="logging_in_title">Logging In</string>
+  <string name="logging_in_message">Please wait while we log you in…</string>
+  <string name="login_failed_title">Login Failed</string>
+  <string name="login_failed_message">There was a problem logging you in. Please check your
         username and password and try again!</string>
 
-    <string name="play_services_error">There was an error with Google Play Services! Please
+  <string name="play_services_error">There was an error with Google Play Services! Please
         try again!</string>
 
-    <string name="facebook_app_id">121412008477508</string>
-    <string name="fb_login_protocol_scheme">fb121412008477508</string>
+  <string name="facebook_app_id">121412008477508</string>
+  <string name="fb_login_protocol_scheme">fb121412008477508</string>
 
-    <string name="send_reset_link">Send Reset Link</string>
-    <string name="forgot_password_enter_email">Please enter the Email ID associated with your
+  <string name="send_reset_link">Send Reset Link</string>
+  <string name="forgot_password_enter_email">Please enter the Email ID associated with your
         account below</string>
 
-    <string name="reset_password_progress_message">Please wait while we send you an email with the
+  <string name="reset_password_progress_message">Please wait while we send you an email with the
         password reset link…</string>
-    <string name="reset_password_title">Reset Password</string>
-    <string name="reset_password_message">The password reset link has been sent successfully!
+  <string name="reset_password_title">Reset Password</string>
+  <string name="reset_password_message">The password reset link has been sent successfully!
         Please check your email for further instructions!</string>
-    <string name="reset_password_error">There was an error sending the password reset email. Please
+  <string name="reset_password_error">There was an error sending the password reset email. Please
         try again!</string>
 
-    <string name="year_se">SE</string>
-    <string name="year_te">TE</string>
+  <string name="year_se">SE</string>
+  <string name="year_te">TE</string>
 
-    <string name="save_profile">Save Profile</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="roll_number">Roll Number</string>
-    <string name="year">Year</string>
-    <string name="division">Division</string>
-    <string name="class_teacher">Class Teacher</string>
-    <string name="teacher_guardian">Teacher Guardian</string>
+  <string name="save_profile">Save Profile</string>
+  <string name="phone_number">Phone Number</string>
+  <string name="roll_number">Roll Number</string>
+  <string name="year">Year</string>
+  <string name="division">Division</string>
+  <string name="class_teacher">Class Teacher</string>
+  <string name="teacher_guardian">Teacher Guardian</string>
 
-    <string name="feedback_fragment">Feedback Fragment</string>
+  <string name="feedback_fragment">Feedback Fragment</string>
 
-    <string name="profile_update_successful">Profile updated successfully!</string>
-    <string name="profile_update_failed">"There was an unknown error while updating your profile.
+  <string name="profile_update_successful">Profile updated successfully!</string>
+  <string name="profile_update_failed">"There was an unknown error while updating your profile.
         Please try again!"</string>
 
-    <string name="new_bunksheet">New Bunksheet</string>
-    <string name="request_bunksheet">Request Bunksheet</string>
-    <string name="bunksheet_reason">Reason For Bunksheet</string>
-    <string name="number_entries">Number of Entries</string>
-    <string name="places_visited">Places Visited</string>
-    <string name="slot_first">First slot (8.15–10.15/12.00–2.00)</string>
-    <string name="slot_second">Second slot (10.30–12.30/2.30–4.30)</string>
-    <string name="slot_third">Third slot (1.30–4.30/4.45–6.45)</string>
-    <string name="time_slots">Time Slots</string>
-    <string name="date">Date</string>
+  <string name="new_bunksheet">New Bunksheet</string>
+  <string name="request_bunksheet">Request Bunksheet</string>
+  <string name="bunksheet_reason">Reason For Bunksheet</string>
+  <string name="number_entries">Number of Entries</string>
+  <string name="places_visited">Places Visited</string>
+  <string name="slot_first">First slot (8.15–10.15/12.00–2.00)</string>
+  <string name="slot_second">Second slot (10.30–12.30/2.30–4.30)</string>
+  <string name="slot_third">Third slot (1.30–4.30/4.45–6.45)</string>
+  <string name="time_slots">Time Slots</string>
+  <string name="date">Date</string>
 
-    <string name="bunksheet_request_successful">Bunksheet request submitted successfully!</string>
-    <string name="bunksheet_request_failed">There was an error submitting your bunksheet request.
+  <string name="bunksheet_request_successful">Bunksheet request submitted successfully!</string>
+  <string name="bunksheet_request_failed">There was an error submitting your bunksheet request.
         Please try again!</string>
-    <string name="bunksheet_validation_error">Validation error! Please fill out all fields correctly
+  <string name="bunksheet_validation_error">Validation error! Please fill out all fields correctly
         and try again!</string>
 
-    <string name="one">1</string>
-    <string name="two">2</string>
-    <string name="three">3</string>
+  <string name="one">1</string>
+  <string name="two">2</string>
+  <string name="three">3</string>
 
-    <string name="slots">Slots:</string>
-    <string name="places">Places Visited:</string>
-    <string name="entries">Entries:</string>
-    <string name="date_textView">Date:</string>
+  <string name="slots">Slots:</string>
+  <string name="places">Places Visited:</string>
+  <string name="entries">Entries:</string>
+  <string name="date_textView">Date:</string>
 
-    <string name="requested_by">Requested By:</string>
+  <string name="requested_by">Requested By:</string>
 
-    <string name="already_approved">Bunksheet already approved!</string>
-    <string name="approved_successfully">Bunksheet approved successfully!</string>
+  <string name="already_approved">Bunksheet already approved!</string>
+  <string name="approved_successfully">Bunksheet approved successfully!</string>
 
-    <string name="approved_bunksheets">Approved Bunksheets</string>
-    <string name="approved_by">Approved By:</string>
+  <string name="approved_bunksheets">Approved Bunksheets</string>
+  <string name="approved_by">Approved By:</string>
 
-    <string name="na">N/A</string>
+  <string name="na">N/A</string>
 
-    <string name="profile_incomplete_title">Profile Incomplete</string>
-    <string name="profile_incomplete_message">You must fill your profile completely before you can
+  <string name="profile_incomplete_title">Profile Incomplete</string>
+  <string name="profile_incomplete_message">You must fill your profile completely before you can
         request bunksheets!</string>
-    <string name="profile_incomplete_message_approveBunksheets">You must fill your profile
+  <string name="profile_incomplete_message_approveBunksheets">You must fill your profile
         completely before you can approve bunksheets!</string>
-    <string name="profile_incomplete_message_approvedBunksheets">You must fill your profile
+  <string name="profile_incomplete_message_approvedBunksheets">You must fill your profile
         completely before you can view approved bunksheets!</string>
-    <string name="go_to_profile">Go To Profile Screen</string>
+  <string name="go_to_profile">Go To Profile Screen</string>
 
-    <string name="profile_validation_error">Validation error! Please fill out all fields correctly
+  <string name="profile_validation_error">Validation error! Please fill out all fields correctly
         and try again!</string>
 
-    <string name="invalid_phoneNumber">Please enter a valid phone number!</string>
-    <string name="invalid_rollNumber">Please enter a valid roll number!</string>
+  <string name="invalid_phoneNumber">Please enter a valid phone number!</string>
+  <string name="invalid_rollNumber">Please enter a valid roll number!</string>
 
-    <string name="invalid_place">Please enter a valid place!</string>
-    <string name="invalid_numberEntries">Please enter a valid number!</string>
+  <string name="invalid_place">Please enter a valid place!</string>
+  <string name="invalid_numberEntries">Please enter a valid number!</string>
 
-    <string name="future_date_error">You cannot set a date of the future!</string>
+  <string name="future_date_error">You cannot set a date of the future!</string>
 
-    <string name="submitting_bunksheet_title">Submitting Bunksheet Request</string>
-    <string name="submitting_bunksheet_message">Please wait while we are submitting your bunksheet
+  <string name="submitting_bunksheet_title">Submitting Bunksheet Request</string>
+  <string name="submitting_bunksheet_message">Please wait while we are submitting your bunksheet
         request…</string>
 
-    <string name="shared_prefs_name">preferences</string>
-    <string name="saved_privilegeLevel">privilegeLevel</string>
+  <string name="shared_prefs_name">preferences</string>
+  <string name="saved_privilegeLevel">privilegeLevel</string>
 
-    <string name="device_offline">Device offline</string>
-    <string name="approveBunksheets_offline_message">Your device is offline. You may not be able to
+  <string name="device_offline">Device offline</string>
+  <string name="approveBunksheets_offline_message">Your device is offline. You may not be able to
         see the latest bunksheets till your device regains internet connectivity. However, any
         bunksheet you approve will be saved locally and will be synced once your device regains
         internet connectivity.</string>
-    <string name="approvedBunksheets_offline_message">Your device is offline. Your latest approved
+  <string name="approvedBunksheets_offline_message">Your device is offline. Your latest approved
         bunksheets saved locally are displayed here. However, these approved bunksheets may not
         have been synced online and will be synced once your device regains internet
         connectivity.</string>
-    <string name="profile_offline_message">Your device is offline. However, your profile updates
+  <string name="profile_offline_message">Your device is offline. However, your profile updates
         will be saved locally and will be synced once your device regains internet
         connectivity.</string>
-    <string name="bunksheets_offline_message">Your device is offline. You can still view and delete
+  <string name="bunksheets_offline_message">Your device is offline. You can still view and delete
         all your bunksheets here. However, the latest approval and deletion status might not have
         been synced and will be synced once your device regains internet connectivity.</string>
-    <string name="request_bunksheet_offline_message">Your device is offline. However, your
+  <string name="request_bunksheet_offline_message">Your device is offline. However, your
         bunksheet will be saved locally and will be synced once your device regains internet
         connectivity.</string>
 
-    <string name="feedback_userExperience">On a scale of 1 to 5, how would you rate the user
+  <string name="feedback_userExperience">On a scale of 1 to 5, how would you rate the user
         experience and ease of use of this app?</string>
-    <string name="feedback_functionality">On a scale of 1 to 5, how would you rate the features and
+  <string name="feedback_functionality">On a scale of 1 to 5, how would you rate the features and
         functionality of this app?</string>
-    <string name="feedback_other_comments">Any other comments? How can we make this app better?
+  <string name="feedback_other_comments">Any other comments? How can we make this app better?
         Your feedback is totally
         anonymous :)</string>
-    <string name="send_feedback">Send Feedback</string>
-    <string name="feedback_sent_successfully">Your feedback has been submitted successfully!
+  <string name="send_feedback">Send Feedback</string>
+  <string name="feedback_sent_successfully">Your feedback has been submitted successfully!
         Thank you for your valuable feedback! Please also consider rating us on Google Play by
         clicking on the \'Rate Us\' item in the navigation drawer! Thank you! :D</string>
-    <string name="thank_you">Thank you!</string>
-    <string name="submitting_feedback_title">Submitting Feedback</string>
-    <string name="submitting_feedback_message">Please wait while we submit your feedback…</string>
-    <string name="feedback_offline_message">Your device offline. However, your feedback will be
+  <string name="thank_you">Thank you!</string>
+  <string name="submitting_feedback_title">Submitting Feedback</string>
+  <string name="submitting_feedback_message">Please wait while we submit your feedback…</string>
+  <string name="feedback_offline_message">Your device offline. However, your feedback will be
         saved locally and will be synced once your device regains internet connectivity.
         Thank you for your valuable feedback!</string>
-    <string name="feedback_submit_failed">Failed to send feedback! Please try again! :(</string>
-    <string name="rate_us">Rate Us</string>
+  <string name="feedback_submit_failed">Failed to send feedback! Please try again! :(</string>
+  <string name="rate_us">Rate Us</string>
 
-    <string name="confirm_delete_title">Confirm Delete</string>
-    <string name="confirm_delete_message">Are you sure you want to delete this bunksheet? This
+  <string name="confirm_delete_title">Confirm Delete</string>
+  <string name="confirm_delete_message">Are you sure you want to delete this bunksheet? This
         action cannot be undone!</string>
-    <string name="yes_confirm">Yes, I confirm</string>
-    <string name="bunksheet_delete_success">Bunksheet deleted successfully!</string>
-    <string name="cancel">Cancel</string>
+  <string name="yes_confirm">Yes, I confirm</string>
+  <string name="bunksheet_delete_success">Bunksheet deleted successfully!</string>
+  <string name="cancel">Cancel</string>
+
+  <string name="bunksheet_decline_success">Bunksheet declined successfully!</string>
+  <string name="bunksheet_delete_error">You cannot delete a bunksheet which has been
+    declined!</string>
+
 </resources>

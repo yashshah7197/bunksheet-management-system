@@ -6,79 +6,79 @@ package io.yashshah.bunksheetmanagementsystem.data;
 
 public class Bunksheet {
 
-    private String userUID;
-    private String reason;
-    private String date;
-    private String timeSlots;
-    private String placesVisited;
-    private int numberOfEntries;
-    private int approvalLevel;
-    private String approvedBy;
+  private String userUID;
+  private String reason;
+  private String date;
+  private String timeSlots;
+  private String placesVisited;
+  private int numberOfEntries;
+  private int approvalLevel;
+  private String approvedBy;
 
-    public Bunksheet() {
-    }
+  public Bunksheet() {
+  }
 
-    public String getUserUID() {
-        return userUID;
-    }
+  public String getUserUID() {
+    return userUID;
+  }
 
-    public void setUserUID(String userUID) {
-        this.userUID = userUID;
-    }
+  public void setUserUID(String userUID) {
+    this.userUID = userUID;
+  }
 
-    public String getReason() {
-        return reason;
-    }
+  public String getReason() {
+    return reason;
+  }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
 
-    public String getDate() {
-        return date;
-    }
+  public String getDate() {
+    return date;
+  }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+  public void setDate(String date) {
+    this.date = date;
+  }
 
-    public String getTimeSlots() {
-        return timeSlots;
-    }
+  public String getTimeSlots() {
+    return timeSlots;
+  }
 
-    public void setTimeSlots(String timeSlots) {
-        this.timeSlots = timeSlots;
-    }
+  public void setTimeSlots(String timeSlots) {
+    this.timeSlots = timeSlots;
+  }
 
-    public String getPlacesVisited() {
-        return placesVisited;
-    }
+  public String getPlacesVisited() {
+    return placesVisited;
+  }
 
-    public void setPlacesVisited(String placesVisited) {
-        this.placesVisited = placesVisited;
-    }
+  public void setPlacesVisited(String placesVisited) {
+    this.placesVisited = placesVisited;
+  }
 
-    public int getNumberOfEntries() {
-        return numberOfEntries;
-    }
+  public int getNumberOfEntries() {
+    return numberOfEntries;
+  }
 
-    public void setNumberOfEntries(int numberOfEntries) {
-        this.numberOfEntries = numberOfEntries;
-    }
+  public void setNumberOfEntries(int numberOfEntries) {
+    this.numberOfEntries = numberOfEntries;
+  }
 
-    public int getApprovalLevel() {
-        return approvalLevel;
-    }
+  public int getApprovalLevel() {
+    return approvalLevel;
+  }
 
-    public void setApprovalLevel(int approvalLevel) {
-        this.approvalLevel = approvalLevel;
-    }
+  public void setApprovalLevel(int approvalLevel) {
+    this.approvalLevel = approvalLevel;
+  }
 
-    public String getApprovedBy() {
-        return approvedBy;
-    }
+  public String getApprovedBy() {
+    return approvedBy;
+  }
 
-    public void setApprovedBy(String approvedBy) {
-        this.approvedBy = approvedBy;
-    }
+  public void setApprovedBy(String approvedBy) {
+    this.approvedBy = approvedBy;
+  }
 }

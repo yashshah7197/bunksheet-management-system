@@ -8,10 +8,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class BunksheetManagementSystem extends android.app.Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        FirebaseDatabase.getInstance().getReference().keepSynced(true);
-    }
+  @Override public void onCreate() {
+    super.onCreate();
+    FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    FirebaseDatabase.getInstance().getReference().keepSynced(true);
+  }
 }

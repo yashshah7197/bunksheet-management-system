@@ -10,32 +10,36 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingStart="16dp"
-    android:paddingTop="32dp">
+    android:paddingTop="32dp"
+    >
 
-    <TextView
-        android:id="@+id/textView_header_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"/>
+  <TextView
+      android:id="@+id/textView_header_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginTop="16dp"
+      android:textAppearance="?android:attr/textAppearanceMedium"
+      android:textColor="@android:color/white"
+      />
 
-    <TextView
-        android:id="@+id/textView_header_year_division"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"/>
+  <TextView
+      android:id="@+id/textView_header_year_division"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginTop="8dp"
+      android:textAppearance="?android:attr/textAppearanceMedium"
+      android:textColor="@android:color/white"
+      />
 
-    <TextView
-        android:id="@+id/textView_header_rollNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/white"/>
+  <TextView
+      android:id="@+id/textView_header_rollNumber"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginTop="8dp"
+      android:textAppearance="?android:attr/textAppearanceMedium"
+      android:textColor="@android:color/white"
+      />
 </LinearLayout>
